@@ -1,0 +1,37 @@
+# IDE
+.vscode/
+.idea/
+.antigravity/
+.antigravity-ide/
+
+# Angular / Node
+frontend/**/node_modules/
+frontend/**/dist/
+frontend/**/.angular/
+frontend/**/.cache/
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Java / Maven
+backend/**/target/
+
+# Environment / Secrets
+.env
+.env.*
+!.env.example
+
+application-local.properties
+application-secret.properties
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
