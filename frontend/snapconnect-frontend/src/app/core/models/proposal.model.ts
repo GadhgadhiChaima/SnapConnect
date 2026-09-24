@@ -31,10 +31,13 @@ export interface Proposal {
 
 export interface ProposalSubmitRequest {
   jobId: string;
+  jobTitle?: string;
   coverLetter: string;
   bidAmount: number;
-  deliveryDays: number;
+  deliveryDays?: number;
+  estimatedDays?: number;
   equipmentConfirmed?: string;
+  creatorEquipment?: string;
   sampleLinks?: string[];
   milestones?: ProposalMilestone[];
 }

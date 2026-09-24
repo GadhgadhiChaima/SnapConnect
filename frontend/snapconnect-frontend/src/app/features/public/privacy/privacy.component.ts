@@ -12,17 +12,17 @@ import { FooterComponent } from '../../../shared/components/footer/footer.compon
     <main class="legal-page">
       <div class="container-narrow">
         <div class="page-header text-center">
-          <span class="badge badge-neutral">Privacy & GDPR</span>
-          <h1>Privacy Policy</h1>
-          <p>Last updated: August 2026</p>
+          <span class="badge badge-neutral">Confidentialité & Données</span>
+          <h1>Politique de Confidentialité</h1>
+          <p>Dernière mise à jour : Août 2026</p>
         </div>
 
         <div class="legal-content card-glass">
-          <h3>1. Data Protection</h3>
-          <p>SnapConnect is committed to protecting your personal information and complying with applicable GDPR regulations. We collect only the data necessary to facilitate marketplace matchmaking, payment security, and communication between clients and mobile creators.</p>
+          <h3>1. Protection des données personnelles</h3>
+          <p>SnapConnect s'engage à protéger vos données personnelles conformément aux normes de protection de la vie privée. Nous collectons uniquement les informations nécessaires au fonctionnement de la marketplace, à la sécurisation des paiements par séquestre et à la messagerie entre clients et créateurs.</p>
 
-          <h3>2. Uploaded Media & Storage</h3>
-          <p>Photos and video deliverables uploaded to contract rooms are encrypted in transit and securely hosted. You retain control over your uploaded media.</p>
+          <h3>2. Médias téléversés & Hébergement</h3>
+          <p>Les fichiers photos et vidéos 4K téléversés dans les espaces de contrat sont chiffrés en transit et hébergés de manière sécurisée. Vous conservez le contrôle total de vos contenus.</p>
         </div>
       </div>
     </main>

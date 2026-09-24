@@ -12,5 +12,5 @@ export interface CreatorRecommendation {
 export interface JobRecommendation {
   job: Job;
   matchScore: number;          // e.g. 94%
-  matchReasons: string[];      // e.g. ["Matches your iPhone gear", "Budget above $200", "Category: Food & Restaurant"]
+  matchReasons: string[];      // e.g. ["Matches your iPhone gear", "Budget above 200 DT", "Category: Food & Restaurant"]
 }

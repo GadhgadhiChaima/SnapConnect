@@ -73,6 +73,9 @@
 | **AUT-04** | Barre de Navigation Connectée | Affichage de l'avatar, prénom, badges de messages non lus, menu déroulant selon rôle | Authentifié | `[✅ TERMINÉ]` | `src/app/shared/components/navbar/navbar.component.ts` |
 | **AUT-05** | Déconnexion Sécurisée | Nettoyage du token JWT, réinitialisation de l'état Auth et redirection vers l'accueil | Authentifié | `[✅ TERMINÉ]` | `src/app/core/services/auth.service.ts` |
 | **AUT-06** | Page Paramètres & Profil | Mise à jour des informations personnelles et spécifications du smartphone | Authentifié | `[✅ TERMINÉ]` | `src/app/features/shared-features/settings/settings.component.ts` |
+| **AUT-07** | Google OAuth 2.0 Client GIS | Intégration Google Identity Services officielle (`renderButton`, token client, callback id_token) pour Login et Register avec conservation du rôle | Visiteur | `[✅ TERMINÉ]` | `src/app/core/services/google-auth.service.ts` |
+| **AUT-08** | API Backend Auth & Sécurité JWT | Endpoints Spring Boot `/api/auth/{login,register,google,health}`, validation cryptographique des ID tokens Google (`GoogleTokenVerifierService`), persistence MySQL et émission JWT HMAC-SHA512 unifiée | Système | `[✅ TERMINÉ]` | `backend/.../controller/AuthController.java` |
+| **AUT-09** | Mot de passe oublié & Réinitialisation | Workflow complet de reset password avec génération de token sécurisé (1h), vérification, jauge dynamique de force de mot de passe et endpoints Spring Boot `/api/auth/{forgot-password,verify-reset-token,reset-password}` | Visiteur | `[✅ TERMINÉ]` | `src/app/features/auth/{forgot,reset}-password/` & `AuthController.java` |
 
 ---
 
@@ -181,6 +184,7 @@
 
 | Date | Fonctionnalité(s) Modifiée(s) | Ancien Statut | Nouveau Statut | Commentaires |
 | :--- | :--- | :---: | :---: | :--- |
+| **17/08/2026** | **Authentification Sociale Google OAuth (Sign-in & Sign-up)** | `[EN COURS]` | `[✅ TERMINÉ]` | Intégration du bouton *"Continue with Google"* avec logo officiel SVG, séparateur esthétique, gestion de session et support des rôles Client / Créateur dans `LoginComponent` (`/auth/login`), `RegisterComponent` (`/auth/register`) et `AuthService`. |
 | **16/08/2026** | **Phase 7 Recommandation & Matching Transparent** | `[EN COURS]` | `[✅ TERMINÉ]` | Composant de match algorithmique (`RecommendationMatchComponent`), explications transparentes (+35% matériel iPhone/Galaxy, +30% catégorie, +20% délais, +15% réputation), intégration profils créateurs (`/creators/:id`) et dashboard client (`/client/dashboard`) entièrement développés. |
 | **16/08/2026** | **Phase 6 Plans d'Abonnement & Monétisation SaaS** | `[EN COURS]` | `[✅ TERMINÉ]` | Formules d'abonnement créateur (`/creator/subscription`, commission réduite de 12% à 5%, toggle annuel -20%), plans entreprises client (`/client/subscription`), routes associées et gestion des niveaux dans `SubscriptionService` entièrement développés. |
 | **16/08/2026** | **Phase 5 Évaluation Bilatérale & Réputation Multi-Critères** | `[EN COURS]` | `[✅ TERMINÉ]` | Modale d'évaluation bilatérale (`ReviewModalComponent`), critères qualité vidéo 4K, délais, communication et maîtrise matériel smartphone, intégration contrat post-livraison (`/client/contracts/:id`), console modération des reviews (`/admin/reviews`) et calcul d'index réputation dans `ReputationService` entièrement développés. |

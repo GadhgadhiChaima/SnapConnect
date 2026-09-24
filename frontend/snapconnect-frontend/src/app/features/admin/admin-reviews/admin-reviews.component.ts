@@ -16,9 +16,9 @@ import { TwoSidedReview } from '../../../core/models/reputation.model';
       <div class="container">
         <div class="page-header flex-between">
           <div>
-            <a routerLink="/admin/dashboard" class="back-link">← Back to Admin Hub</a>
-            <h1>Two-Sided Ratings & Reputation Moderation</h1>
-            <p>Monitor multi-criteria ratings, audit algorithmic reputation scores, and moderate reported reviews.</p>
+            <a routerLink="/admin/dashboard" class="back-link">← Retour au Hub Admin</a>
+            <h1>Notations Réciproques & Modération de Réputation</h1>
+            <p>Surveillez les évaluations multicritères, auditez les scores de réputation et modérez les avis signalés.</p>
           </div>
         </div>
 
@@ -27,12 +27,12 @@ import { TwoSidedReview } from '../../../core/models/reputation.model';
             <table class="admin-table">
               <thead>
                 <tr>
-                  <th>Reviewer</th>
-                  <th>Reviewee</th>
-                  <th>Overall</th>
-                  <th>Criteria Breakdown</th>
-                  <th>Feedback Comment</th>
-                  <th>Status</th>
+                  <th>Auteur de l'avis</th>
+                  <th>Destinataire</th>
+                  <th>Note globale</th>
+                  <th>Détail par critère</th>
+                  <th>Commentaire</th>
+                  <th>Statut</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -41,30 +41,35 @@ import { TwoSidedReview } from '../../../core/models/reputation.model';
                   <tr>
                     <td>
                       <strong>{{ r.reviewerName }}</strong>
-                      <span class="role-sub">({{ r.reviewerRole }})</span>
+                      <span class="role-sub">({{ r.reviewerRole === 'CLIENT' ? 'Client' : 'Créateur' }})</span>
                     </td>
                     <td>
                       <strong>{{ r.revieweeName }}</strong>
-                      <span class="role-sub">({{ r.revieweeRole }})</span>
+                      <span class="role-sub">({{ r.revieweeRole === 'CLIENT' ? 'Client' : 'Créateur' }})</span>
                     </td>
                     <td>
-                      <strong class="stars-val">★ {{ r.overallRating }}</strong>
+                      <strong class="stars-val">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" stroke-width="1" style="vertical-align: -1px; margin-right: 3px;">
+                          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                        {{ r.overallRating }}
+                      </strong>
                     </td>
                     <td>
                       <div class="crit-breakdown">
-                        <span>Quality: <strong>{{ r.qualityRating }}/5</strong></span>
-                        <span>Comms: <strong>{{ r.communicationRating }}/5</strong></span>
-                        <span>Deadlines: <strong>{{ r.deadlinesRating }}/5</strong></span>
+                        <span>Qualité : <strong>{{ r.qualityRating }}/5</strong></span>
+                        <span>Communication : <strong>{{ r.communicationRating }}/5</strong></span>
+                        <span>Délais : <strong>{{ r.deadlinesRating }}/5</strong></span>
                       </div>
                     </td>
                     <td>
                       <p class="review-text">"{{ r.comment }}"</p>
                     </td>
                     <td>
-                      <span class="badge badge-success">● {{ r.status }}</span>
+                      <span class="badge badge-success">● {{ r.status === 'PUBLISHED' ? 'Publié' : r.status }}</span>
                     </td>
                     <td>
-                      <button (click)="removeReview(r.id)" class="btn btn-ghost btn-xs text-danger">Remove</button>
+                      <button (click)="removeReview(r.id)" class="btn btn-ghost btn-xs text-danger">Supprimer</button>
                     </td>
                   </tr>
                 }
@@ -102,8 +107,8 @@ export class AdminReviewsComponent {
   reviews = this.reputationService.reviews;
 
   removeReview(id: string): void {
-    if (confirm('Remove this review from the marketplace?')) {
-      alert('Review removed.');
+    if (confirm('Retirer cet avis de la marketplace ?')) {
+      alert('Avis retiré avec succès.');
     }
   }
 }

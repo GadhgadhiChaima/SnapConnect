@@ -9,11 +9,11 @@ import { Router, RouterLink } from '@angular/router';
     <div class="error-page">
       <div class="error-content animate-fade-in">
         <div class="error-code">404</div>
-        <h1>Page Not Found</h1>
-        <p>The page you're looking for doesn't exist or has been moved.</p>
+        <h1>Page Introuvable</h1>
+        <p>La page que vous recherchez n'existe pas ou a été déplacée.</p>
         <div class="error-actions">
-          <a routerLink="/" class="btn btn-primary btn-lg">Go Home</a>
-          <button (click)="goBack()" class="btn btn-outline btn-lg">Go Back</button>
+          <a routerLink="/" class="btn btn-primary btn-lg">Retour à l'accueil</a>
+          <button (click)="goBack()" class="btn btn-outline btn-lg">Page précédente</button>
         </div>
       </div>
     </div>

@@ -16,18 +16,18 @@ import { SubscriptionPlan } from '../../../core/models/subscription.model';
       <div class="container">
         <!-- Header -->
         <div class="page-header text-center">
-          <span class="badge badge-primary">Brand & Business Plans</span>
-          <h1>Scale Your Brand with Mobile Content</h1>
-          <p>Unlimited brief postings, prioritized placement, advanced smartphone camera filters, and consolidated VAT billing.</p>
+          <span class="badge badge-primary">Formules & Abonnements</span>
+          <h1>Propulsez votre marque avec du contenu mobile</h1>
+          <p>Publications illimitées de briefs, visibilité prioritaire, filtres de matériel avancés et facturation centralisée avec TVA.</p>
 
           <!-- Billing Cycle Toggle -->
           <div class="billing-toggle card">
-            <span [class.active]="!isYearly()" (click)="isYearly.set(false)">Monthly Billing</span>
+            <span [class.active]="!isYearly()" (click)="isYearly.set(false)">Facturation mensuelle</span>
             <button class="switch-pill" (click)="isYearly.set(!isYearly())" [class.on]="isYearly()">
               <span class="dot"></span>
             </button>
             <span [class.active]="isYearly()" (click)="isYearly.set(true)">
-              Annual Billing <span class="discount-tag">Save 20% 🎉</span>
+              Facturation annuelle <span class="discount-tag">-20% d'économie</span>
             </span>
           </div>
         </div>
@@ -37,7 +37,7 @@ import { SubscriptionPlan } from '../../../core/models/subscription.model';
           @for (plan of plans(); track plan.id) {
             <div
               class="plan-card card-glass animate-fade-in"
-              [class.popular]="plan.badgeLabel === 'FOR BRANDS'"
+              [class.popular]="plan.badgeLabel === 'POUR MARQUES'"
             >
               @if (plan.badgeLabel) {
                 <span class="popular-ribbon">{{ plan.badgeLabel }}</span>
@@ -46,12 +46,15 @@ import { SubscriptionPlan } from '../../../core/models/subscription.model';
               <div class="plan-header">
                 <h3>{{ plan.title }}</h3>
                 <div class="plan-price">
-                  <span class="currency">$</span>
-                  <span class="amount">{{ getPrice(plan.priceMonthly) }}</span>
-                  <span class="period">/ month</span>
+                  <span class="amount">{{ getPrice(plan.priceMonthly) }} DT</span>
+                  <span class="period">/ mois</span>
                 </div>
                 <span class="fee-pill">
-                  🔒 100% Escrow Buyer Guarantee Included
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: -1px; margin-right: 4px;">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  </svg>
+                  Garantie Séquestre 100% Incluse
                 </span>
               </div>
 
@@ -71,7 +74,7 @@ import { SubscriptionPlan } from '../../../core/models/subscription.model';
                   [class.btn-primary]="plan.code === 'BUSINESS'"
                   [class.btn-outline]="plan.code === 'FREE'"
                 >
-                  {{ plan.code === 'FREE' ? 'Current Free Plan' : 'Upgrade to Business Growth' }}
+                  {{ plan.code === 'FREE' ? 'Formule Gratuite Actuelle' : 'Passer à la formule Premium' }}
                 </button>
               </div>
             </div>
@@ -275,9 +278,10 @@ export class ClientSubscriptionComponent {
 
   choosePlan(plan: SubscriptionPlan): void {
     if (plan.code === 'FREE') return;
-    if (confirm(`Upgrade to ${plan.title} for $${this.isYearly() ? plan.priceMonthly * 0.8 * 12 : plan.priceMonthly}?`)) {
+    const price = this.isYearly() ? Math.round(plan.priceMonthly * 0.8 * 12) : plan.priceMonthly;
+    if (confirm(`Passer à la formule ${plan.title} pour ${price} DT ?`)) {
       this.subService.upgradePlan(plan.id, plan.code);
-      alert(`Success! You are now on the ${plan.title} plan. Unlimited briefs unlocked.`);
+      alert(`Félicitations ! Vous bénéficiez désormais de la formule ${plan.title}. Briefs illimités débloqués.`);
     }
   }
 }

@@ -12,17 +12,17 @@ import { ReviewSubmitRequest, TwoSidedReview } from '../../../core/models/reputa
         <button class="close-btn" (click)="close.emit()">✕</button>
 
         <div class="modal-header text-center">
-          <span class="badge badge-accent">⭐ Two-Sided Review System</span>
-          <h2>{{ isClientReviewingCreator ? 'Rate Creator Deliverables' : 'Rate Client Collaboration' }}</h2>
+          <span class="badge badge-accent">Avis Réciproque Certifié</span>
+          <h2>{{ isClientReviewingCreator ? 'Évaluer le travail du créateur' : 'Évaluer la collaboration avec le client' }}</h2>
           <p class="modal-sub">
-            Your honest rating powers the SnapConnect Reputation Algorithm and helps ensure high mobile standards.
+            Votre évaluation transparente alimente le score de confiance SnapConnect et garantit l'excellence des créateurs smartphone.
           </p>
         </div>
 
         <form (ngSubmit)="submitReview()" class="review-form">
           <!-- Overall Star Rating -->
           <div class="rating-box-main text-center card">
-            <span class="lbl">Overall Rating</span>
+            <span class="lbl">Note globale</span>
             <div class="stars-picker">
               @for (star of [1, 2, 3, 4, 5]; track star) {
                 <button
@@ -31,7 +31,9 @@ import { ReviewSubmitRequest, TwoSidedReview } from '../../../core/models/reputa
                   [class.active]="overallRating() >= star"
                   (click)="overallRating.set(star)"
                 >
-                  ★
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                  </svg>
                 </button>
               }
             </div>
@@ -43,44 +45,44 @@ import { ReviewSubmitRequest, TwoSidedReview } from '../../../core/models/reputa
             @if (isClientReviewingCreator) {
               <!-- Client reviewing Creator -->
               <div class="criterion-item">
-                <label class="crit-label">🎥 4K Video/Photo Visual Quality</label>
+                <label class="crit-label">Qualité visuelle photos/vidéos 4K</label>
                 <input type="range" min="1" max="5" [(ngModel)]="criterion1" name="c1" class="form-range" />
                 <span class="range-val">{{ criterion1 }}/5</span>
               </div>
 
               <div class="criterion-item">
-                <label class="crit-label">⏱️ On-Time Delivery & Deadlines</label>
+                <label class="crit-label">Respect des délais de livraison</label>
                 <input type="range" min="1" max="5" [(ngModel)]="criterion2" name="c2" class="form-range" />
                 <span class="range-val">{{ criterion2 }}/5</span>
               </div>
 
               <div class="criterion-item">
-                <label class="crit-label">💬 Communication & Responsiveness</label>
+                <label class="crit-label">Communication & réactivité</label>
                 <input type="range" min="1" max="5" [(ngModel)]="criterion3" name="c3" class="form-range" />
                 <span class="range-val">{{ criterion3 }}/5</span>
               </div>
 
               <div class="criterion-item">
-                <label class="crit-label">📱 Mobile Camera Rig & Sound Mastery</label>
+                <label class="crit-label">Maîtrise smartphone & prise de son</label>
                 <input type="range" min="1" max="5" [(ngModel)]="criterion4" name="c4" class="form-range" />
                 <span class="range-val">{{ criterion4 }}/5</span>
               </div>
             } @else {
               <!-- Creator reviewing Client -->
               <div class="criterion-item">
-                <label class="crit-label">📋 Brief Clarity & Clear Requirements</label>
+                <label class="crit-label">Clarté du brief et consignes</label>
                 <input type="range" min="1" max="5" [(ngModel)]="criterion1" name="c1" class="form-range" />
                 <span class="range-val">{{ criterion1 }}/5</span>
               </div>
 
               <div class="criterion-item">
-                <label class="crit-label">⚡ Payment Approval & Escrow Release Speed</label>
+                <label class="crit-label">Rapidité de validation & déblocage des fonds</label>
                 <input type="range" min="1" max="5" [(ngModel)]="criterion2" name="c2" class="form-range" />
                 <span class="range-val">{{ criterion2 }}/5</span>
               </div>
 
               <div class="criterion-item">
-                <label class="crit-label">💬 Professionalism & Respect</label>
+                <label class="crit-label">Professionnalisme & courtoisie</label>
                 <input type="range" min="1" max="5" [(ngModel)]="criterion3" name="c3" class="form-range" />
                 <span class="range-val">{{ criterion3 }}/5</span>
               </div>
@@ -89,13 +91,13 @@ import { ReviewSubmitRequest, TwoSidedReview } from '../../../core/models/reputa
 
           <!-- Comment -->
           <div class="form-group">
-            <label class="form-label">Written Feedback</label>
+            <label class="form-label">Commentaire détaillé</label>
             <textarea
               [(ngModel)]="comment"
               name="comment"
               rows="3"
               class="form-textarea"
-              placeholder="Share specific highlights regarding colors, angles, responsiveness, or project collaboration..."
+              placeholder="Partagez votre expérience sur le cadrage, la colorimétrie, la réactivité ou le respect des consignes..."
               required
             ></textarea>
           </div>
@@ -103,8 +105,8 @@ import { ReviewSubmitRequest, TwoSidedReview } from '../../../core/models/reputa
           <!-- Recommendation Toggle -->
           <div class="recommend-toggle card flex-between">
             <div>
-              <strong>Would you recommend this {{ isClientReviewingCreator ? 'Creator' : 'Client' }}?</strong>
-              <p class="rec-sub">Contributes positively to their marketplace trust badge</p>
+              <strong>Recommanderiez-vous ce {{ isClientReviewingCreator ? 'Créateur' : 'Client' }} ?</strong>
+              <p class="rec-sub">Contribue directement à son badge de confiance sur la marketplace</p>
             </div>
             <label class="switch">
               <input type="checkbox" [(ngModel)]="recommended" name="rec" />
@@ -113,9 +115,9 @@ import { ReviewSubmitRequest, TwoSidedReview } from '../../../core/models/reputa
           </div>
 
           <div class="modal-actions">
-            <button type="button" (click)="close.emit()" class="btn btn-outline">Cancel</button>
+            <button type="button" (click)="close.emit()" class="btn btn-outline">Annuler</button>
             <button type="submit" class="btn btn-primary" [disabled]="!comment.trim()">
-              Publish Verified Review ⭐
+              Publier l'avis certifié
             </button>
           </div>
         </form>
@@ -331,11 +333,11 @@ export class ReviewModalComponent {
 
   getRatingLabel(stars: number): string {
     switch (stars) {
-      case 5: return '⭐⭐⭐⭐⭐ Exceptional (5.0)';
-      case 4: return '⭐⭐⭐⭐ Very Good (4.0)';
-      case 3: return '⭐⭐⭐ Average (3.0)';
-      case 2: return '⭐⭐ Below Expectations (2.0)';
-      case 1: return '⭐ Poor (1.0)';
+      case 5: return 'Exceptionnel (5.0)';
+      case 4: return 'Très bon (4.0)';
+      case 3: return 'Correct (3.0)';
+      case 2: return 'En dessous des attentes (2.0)';
+      case 1: return 'Insuffisant (1.0)';
       default: return '';
     }
   }

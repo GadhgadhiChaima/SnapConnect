@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-client-onboarding',
@@ -7,9 +7,14 @@
   template: `
     <div class="stub-page">
       <div class="stub-content">
-        <div class="stub-icon">🚧</div>
-        <h2>Client Onboarding</h2>
-        <p>This page is being implemented in the upcoming phases.</p>
+        <div class="stub-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-primary-400);">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+        <h2>Intégration Client</h2>
+        <p>Cet écran d'onboarding est en cours de synchronisation.</p>
       </div>
     </div>
   `,

@@ -6,7 +6,34 @@ import { BadgeType } from '../../../core/models/reputation.model';
   standalone: true,
   template: `
     <div class="creator-badge" [class]="'badge-' + type()">
-      <span class="badge-icon">{{ getIcon() }}</span>
+      @switch (type()) {
+        @case ('VERIFIED_CREATOR') {
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        }
+        @case ('TOP_CREATOR') {
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" stroke-width="1">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+        }
+        @case ('FAST_RESPONDER') {
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+        }
+        @case ('IPHONE_PRO_EXPERT') {
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="2.5" ry="2.5"></rect>
+            <line x1="12" y1="18" x2="12.01" y2="18"></line>
+          </svg>
+        }
+        @default {
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+          </svg>
+        }
+      }
       <span class="badge-text">{{ getLabel() }}</span>
     </div>
   `,
@@ -54,23 +81,13 @@ import { BadgeType } from '../../../core/models/reputation.model';
 export class CreatorBadgeComponent {
   type = input<BadgeType>('VERIFIED_CREATOR');
 
-  getIcon(): string {
-    switch (this.type()) {
-      case 'VERIFIED_CREATOR': return '✓';
-      case 'TOP_CREATOR': return '👑';
-      case 'FAST_RESPONDER': return '⚡';
-      case 'IPHONE_PRO_EXPERT': return '📱';
-      default: return '⭐';
-    }
-  }
-
   getLabel(): string {
     switch (this.type()) {
-      case 'VERIFIED_CREATOR': return 'Verified Creator';
-      case 'TOP_CREATOR': return 'Top Rated';
-      case 'FAST_RESPONDER': return 'Fast Responder';
-      case 'IPHONE_PRO_EXPERT': return 'iPhone 16 Pro Expert';
-      default: return 'Pro Talent';
+      case 'VERIFIED_CREATOR': return 'Créateur Vérifié';
+      case 'TOP_CREATOR': return 'Top Créateur';
+      case 'FAST_RESPONDER': return 'Réponse Rapide';
+      case 'IPHONE_PRO_EXPERT': return 'Expert iPhone Pro';
+      default: return 'Talent Certifié';
     }
   }
 }

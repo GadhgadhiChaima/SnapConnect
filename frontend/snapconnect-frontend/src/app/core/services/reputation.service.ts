@@ -17,17 +17,17 @@ export class ReputationService {
       id: 'rev-1',
       contractId: 'ct-1',
       reviewerId: 'cl-1',
-      reviewerName: 'Bloom Cosmetics',
+      reviewerName: 'Maison Alyssa Cosmétiques Bio',
       reviewerRole: 'CLIENT',
       revieweeId: 'cr-1',
-      revieweeName: 'Sarah Jenkins',
+      revieweeName: 'Sarah Ben Salem',
       revieweeRole: 'CREATOR',
       overallRating: 5.0,
       qualityRating: 5.0,
       communicationRating: 5.0,
       deadlinesRating: 5.0,
       equipmentMasteryRating: 5.0,
-      comment: 'Amazing 4K footage! Her iPhone 16 Pro shots look even better than our previous studio camera crew, and delivered in 36 hours!',
+      comment: 'Qualité 4K exceptionnelle ! Ses prises de vue sur iPhone 16 Pro sont plus nettes que notre ancienne équipe DSLR en studio, et livraison en 36h !',
       recommended: true,
       status: 'PUBLISHED',
       createdAt: '2026-08-12 15:30'
@@ -36,14 +36,14 @@ export class ReputationService {
       id: 'rev-2',
       contractId: 'ct-2',
       reviewerId: 'cr-1',
-      reviewerName: 'Sarah Jenkins',
+      reviewerName: 'Sarah Ben Salem',
       reviewerRole: 'CREATOR',
       revieweeId: 'cl-1',
-      revieweeName: 'Bloom Cosmetics',
+      revieweeName: 'Maison Alyssa Cosmétiques Bio',
       revieweeRole: 'CLIENT',
       overallRating: 5.0,
       communicationRating: 5.0,
-      comment: 'Great client to work with! Clear creative brief, fast feedback, and prompt escrow approval.',
+      comment: 'Excellent client ! Brief créatif très clair, retours rapides et déblocage immédiat des fonds en séquestre.',
       recommended: true,
       status: 'PUBLISHED',
       createdAt: '2026-08-12 16:00'
@@ -66,30 +66,30 @@ export class ReputationService {
     badges: [
       {
         type: 'VERIFIED_CREATOR',
-        label: 'Verified Smartphone Creator',
-        icon: '✓',
-        description: 'Identity and 4K mobile gear verified by SnapConnect',
+        label: 'Créateur Smartphone Certifié',
+        icon: 'verified',
+        description: 'Identité et matériel mobile 4K vérifiés par SnapConnect',
         earnedAt: '2026-06-01'
       },
       {
         type: 'TOP_CREATOR',
-        label: 'Top Rated Creator',
-        icon: '👑',
-        description: 'Maintained 4.9+ rating over 40+ completed orders',
+        label: 'Top Créateur Recommandé',
+        icon: 'crown',
+        description: 'Maintien d\'une note de 4.9+ sur plus de 40 commandes',
         earnedAt: '2026-07-15'
       },
       {
         type: 'FAST_RESPONDER',
-        label: 'Fast Responder (< 2h)',
-        icon: '⚡',
-        description: 'Average client message response under 2 hours',
+        label: 'Réponse Éclair (< 2h)',
+        icon: 'zap',
+        description: 'Temps moyen de réponse aux messages client inférieur à 2h',
         earnedAt: '2026-06-10'
       },
       {
         type: 'IPHONE_PRO_EXPERT',
-        label: 'iPhone 16 Pro Max 4K Expert',
-        icon: '📱',
-        description: 'Certified 4K 60fps ProRes Log mobile videographer',
+        label: 'Expert iPhone 16 Pro Max 4K',
+        icon: 'smartphone',
+        description: 'Vidéaste certifié 4K 60fps ProRes Log sur smartphone',
         earnedAt: '2026-06-05'
       }
     ],
@@ -101,8 +101,8 @@ export class ReputationService {
         communication: 5.0,
         deadlineRespect: 5.0,
         valueForMoney: 4.8,
-        tags: ['Fast Delivery', 'Cinematic 4K', 'Great Lighting', 'iPhone Pro Expert'],
-        comment: 'Amazing 4K footage! Her iPhone 16 Pro shots look even better than our previous studio camera crew, and delivered in 36 hours!',
+        tags: ['Livraison Rapide', 'Cinématique 4K', 'Super Éclairage', 'Expert iPhone Pro'],
+        comment: 'Qualité 4K exceptionnelle ! Ses prises de vue sur iPhone 16 Pro sont plus nettes que notre ancienne équipe DSLR en studio, et livraison en 36h !',
         ratedAt: '2026-08-12'
       }
     ]
@@ -128,7 +128,7 @@ export class ReputationService {
       reviewerName: req.reviewerName,
       reviewerRole: req.reviewerRole,
       revieweeId: req.revieweeId,
-      revieweeName: req.reviewerRole === 'CLIENT' ? 'Sarah Jenkins' : 'Bloom Cosmetics',
+      revieweeName: req.reviewerRole === 'CLIENT' ? 'Sarah Ben Salem' : 'Maison Alyssa Cosmétiques Bio',
       revieweeRole: req.reviewerRole === 'CLIENT' ? 'CREATOR' : 'CLIENT',
       overallRating: req.overallRating,
       qualityRating: req.qualityRating,

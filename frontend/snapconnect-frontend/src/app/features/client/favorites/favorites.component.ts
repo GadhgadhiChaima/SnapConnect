@@ -15,9 +15,9 @@ import { CreatorProfile } from '../../../core/models/creator.model';
     <main class="favorites-page">
       <div class="container">
         <div class="page-header">
-          <span class="badge badge-accent">Saved Talent</span>
-          <h1>My Favorite Mobile Creators</h1>
-          <p>Creators you have bookmarked for upcoming photo shoots and video campaigns.</p>
+          <span class="badge badge-accent">Talents Sauvegardés</span>
+          <h1>Mes créateurs favoris</h1>
+          <p>Créateurs que vous avez enregistrés pour vos prochains tournages et campagnes vidéo.</p>
         </div>
 
         <div class="favorites-grid">
@@ -44,12 +44,12 @@ export class FavoritesComponent {
     {
       id: 'cr-1',
       userId: 'u-1',
-      fullName: 'Sarah Jenkins',
-      email: 'sarah.j@example.com',
+      fullName: 'Sarah Ben Salem',
+      email: 'sarah.bensalem@snapconnect.tn',
       avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
-      title: 'TikTok & Reels Viral Specialist',
-      bio: 'Mobile videographer with 400K+ views on client TikToks. Specializing in fast-paced cuts, trendy transitions, and hook psychology.',
-      location: 'Paris, France',
+      title: 'Spécialiste TikTok & Reels UGC Viral',
+      bio: 'Vidéaste mobile basée à Tunis avec plus de 500K vues cumulées. Spécialisée dans les montages dynamiques, transitions tendances et le storytelling pour marques tunisiennes.',
+      location: 'Tunis (La Marsa), Tunisie',
       hourlyRate: 45,
       rating: 4.95,
       reviewsCount: 38,
@@ -66,12 +66,12 @@ export class FavoritesComponent {
     {
       id: 'cr-2',
       userId: 'u-2',
-      fullName: 'Marc Dupont',
-      email: 'marc.d@example.com',
+      fullName: 'Mehdi Trabelsi',
+      email: 'mehdi.trabelsi@snapconnect.tn',
       avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80',
-      title: 'Food & Restaurant Mobile Storyteller',
-      bio: 'Creating mouthwatering 4K 60fps reels for upscale bistros and cafes. Shot on Samsung Galaxy S24 Ultra with macro lenses.',
-      location: 'Lyon, France',
+      title: 'Storyteller Mobile Food & Gastronomie',
+      bio: 'Création de Reels 4K 60fps alléchants pour restaurants gastronomiques, salons de thé et hôtels de charme en Tunisie. Tournage sur Galaxy S24 Ultra avec objectifs macro.',
+      location: 'Sousse, Tunisie',
       hourlyRate: 50,
       rating: 5.0,
       reviewsCount: 29,

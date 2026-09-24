@@ -1,16 +1,16 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../../../shared/components/navbar/navbar.component';
 import { FooterComponent } from '../../../../shared/components/footer/footer.component';
 import { RatingStarsComponent } from '../../../../shared/components/rating-stars/rating-stars.component';
 import { MediaModalComponent } from '../../../../shared/components/media-modal/media-modal.component';
-import { ServiceCardComponent } from '../../../../shared/components/service-card/service-card.component';
 import { RecommendationMatchComponent } from '../../../../shared/components/recommendation-match/recommendation-match.component';
 import { CreatorBadgeComponent } from '../../../../shared/components/creator-badge/creator-badge.component';
+import { AuthService } from '../../../../core/services/auth.service';
 import { CreatorProfile } from '../../../../core/models/creator.model';
 import { PortfolioItem } from '../../../../core/models/portfolio.model';
-import { Service } from '../../../../core/models/service.model';
 
 @Component({
   selector: 'app-creator-profile',
@@ -22,7 +22,6 @@ import { Service } from '../../../../core/models/service.model';
     FooterComponent,
     RatingStarsComponent,
     MediaModalComponent,
-    ServiceCardComponent,
     RecommendationMatchComponent,
     CreatorBadgeComponent
   ],
@@ -32,32 +31,79 @@ import { Service } from '../../../../core/models/service.model';
     @if (creator(); as c) {
       <main class="creator-profile-page">
         <div class="container">
+          @if (isOwnProfile()) {
+            <div class="public-preview-banner animate-fade-in">
+              <div class="preview-banner-left">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <span>Vous prévisualisez votre <strong>profil public</strong> tel que les clients et marques le voient sur SnapConnect.</span>
+              </div>
+              <a routerLink="/creator/dashboard" class="preview-back-btn">
+                ← Retourner au profil
+              </a>
+            </div>
+          }
+
           <!-- Profile Banner / Header -->
           <div class="profile-header-card card-glass animate-fade-in">
             <div class="header-main">
               <div class="avatar-col">
-                <img
-                  [src]="c.avatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'"
-                  [alt]="c.fullName"
-                  class="profile-avatar avatar-2xl"
-                />
+                @if (displayAvatarUrl()) {
+                  <img
+                    [src]="displayAvatarUrl()"
+                    [alt]="c.fullName"
+                    class="profile-avatar avatar-2xl"
+                    referrerpolicy="no-referrer"
+                  />
+                } @else {
+                  <div class="profile-avatar avatar-2xl empty-avatar-placeholder">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                  </div>
+                }
                 @if (c.isVerified) {
-                  <span class="verified-badge-large" title="Verified Smartphone Creator">✓</span>
+                  <span class="verified-badge-large" title="Créateur mobile certifié">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                  </span>
                 }
               </div>
 
               <div class="info-col">
                 <div class="name-status-row">
                   <h1>{{ c.fullName }}</h1>
-                  <span class="badge badge-success">● Available for Shoots</span>
+                  <span class="badge badge-success">● Disponible pour tournages</span>
                 </div>
 
                 <p class="creator-title">{{ c.title }}</p>
 
                 <div class="meta-pills">
-                  <span class="meta-pill">📍 {{ c.location }}</span>
-                  <span class="meta-pill">⚡ {{ c.responseTimeHours || 1 }}h avg. response</span>
-                  <span class="meta-pill">🚀 {{ c.completedProjectsCount }} Projects Done</span>
+                  <span class="meta-pill">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -1px; margin-right: 3px;">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    {{ c.location }}
+                  </span>
+                  <span class="meta-pill">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -1px; margin-right: 3px;">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    {{ c.responseTimeHours || 1 }}h réponse moy.
+                  </span>
+                  <span class="meta-pill">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -1px; margin-right: 3px;">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    {{ c.completedProjectsCount }} missions réalisées
+                  </span>
                 </div>
 
                 <div class="rating-strip">
@@ -69,15 +115,37 @@ import { Service } from '../../../../core/models/service.model';
             <!-- Action column (Pricing & Hire button) -->
             <div class="header-actions">
               <div class="rate-card">
-                <span class="rate-label">Hourly Rate</span>
-                <span class="rate-amount">\${{ c.hourlyRate || 45 }}<span class="rate-unit">/hr</span></span>
+                <span class="rate-label">Tarif Horaire</span>
+                <span class="rate-amount">{{ c.hourlyRate || 45 }} DT<span class="rate-unit">/h</span></span>
               </div>
-              <a routerLink="/client/jobs/create" class="btn btn-primary btn-lg hire-btn">
-                💼 Hire for a Job
-              </a>
-              <button (click)="openContactModal()" class="btn btn-outline btn-md">
-                💬 Send Message
-              </button>
+              @if (isOwnProfile()) {
+                <a routerLink="/creator/dashboard" class="btn btn-primary btn-lg hire-btn" style="background: #14a800; border-color: #14a800;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right: 6px; vertical-align: -2px;">
+                    <path d="M12 20h9"></path>
+                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                  </svg>
+                  Modifier mon profil
+                </a>
+                <a routerLink="/creator/dashboard" class="btn btn-outline btn-md contact-btn" style="border-color: rgba(255,255,255,0.2);">
+                  ← Retour au Workspace
+                </a>
+              } @else {
+                <a [routerLink]="['/client/jobs/create']" [queryParams]="{ creatorId: c.id, creatorName: c.fullName }" class="btn btn-primary btn-lg hire-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="margin-right: 6px; vertical-align: -2px;">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="8.5" cy="7" r="4"></circle>
+                    <line x1="20" y1="8" x2="20" y2="14"></line>
+                    <line x1="23" y1="11" x2="17" y2="11"></line>
+                  </svg>
+                  Embaucher ce créateur
+                </a>
+                <button (click)="contactCreator()" class="btn btn-outline btn-md contact-btn" id="contact-creator-btn">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px; vertical-align: -2px;">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                  Contacter le créateur
+                </button>
+              }
             </div>
           </div>
 
@@ -91,25 +159,20 @@ import { Service } from '../../../../core/models/service.model';
                   class="tab-btn"
                   [class.active]="activeTab() === 'PORTFOLIO'"
                   (click)="activeTab.set('PORTFOLIO')">
-                  🖼️ Portfolio Gallery ({{ portfolioItems.length }})
+                  Portfolio ({{ portfolioItems.length }})
                 </button>
-                <button
-                  class="tab-btn"
-                  [class.active]="activeTab() === 'SERVICES'"
-                  (click)="activeTab.set('SERVICES')">
-                  ⚡ Mobile Packages ({{ services.length }})
-                </button>
+
                 <button
                   class="tab-btn"
                   [class.active]="activeTab() === 'ABOUT'"
                   (click)="activeTab.set('ABOUT')">
-                  ℹ️ About & Skills
+                  À propos & Compétences
                 </button>
                 <button
                   class="tab-btn"
                   [class.active]="activeTab() === 'REVIEWS'"
                   (click)="activeTab.set('REVIEWS')">
-                  ⭐ Client Reviews ({{ c.reviewsCount }})
+                  Avis clients ({{ c.reviewsCount }})
                 </button>
               </div>
 
@@ -122,13 +185,19 @@ import { Service } from '../../../../core/models/service.model';
                         <div class="portfolio-media-wrap">
                           <img [src]="item.thumbnailUrl || item.mediaUrl" [alt]="item.title" class="port-img" />
                           <div class="media-type-badge">
-                            {{ item.mediaType === 'VIDEO' ? '▶ Video' : '📷 Photo' }}
+                            {{ item.mediaType === 'VIDEO' ? 'Vidéo' : 'Photo' }}
                           </div>
                         </div>
                         <div class="portfolio-info">
                           <h4>{{ item.title }}</h4>
                           @if (item.equipmentUsed) {
-                            <span class="gear-sub">📱 {{ item.equipmentUsed }}</span>
+                            <span class="gear-sub">
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -1px; margin-right: 2px;">
+                                <rect x="5" y="2" width="14" height="20" rx="2.5" ry="2.5"></rect>
+                                <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                              </svg>
+                              {{ item.equipmentUsed }}
+                            </span>
                           }
                         </div>
                       </div>
@@ -137,24 +206,13 @@ import { Service } from '../../../../core/models/service.model';
                 </div>
               }
 
-              <!-- Tab Content: Services -->
-              @if (activeTab() === 'SERVICES') {
-                <div class="tab-section animate-fade-in">
-                  <div class="services-grid">
-                    @for (s of services; track s.id) {
-                      <app-service-card [service]="s"></app-service-card>
-                    }
-                  </div>
-                </div>
-              }
-
               <!-- Tab Content: About -->
               @if (activeTab() === 'ABOUT') {
                 <div class="tab-section animate-fade-in card-glass about-card">
-                  <h3>About {{ c.fullName }}</h3>
+                  <h3>À propos de {{ c.fullName }}</h3>
                   <p class="bio-full">{{ c.bio }}</p>
 
-                  <h4 class="sub-h">Specializations</h4>
+                  <h4 class="sub-h">Spécialisations</h4>
                   <div class="tags-wrap">
                     @for (spec of c.specializations; track spec) {
                       <span class="badge badge-primary">{{ spec }}</span>
@@ -170,7 +228,12 @@ import { Service } from '../../../../core/models/service.model';
                     <div class="review-card card-glass">
                       <div class="rev-header">
                         <div class="rev-author">
-                          <span class="rev-avatar">👤</span>
+                          <span class="rev-avatar">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                              <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                          </span>
                           <div>
                             <strong>{{ rev.authorName }}</strong>
                             <span class="rev-date">{{ rev.date }}</span>
@@ -191,53 +254,57 @@ import { Service } from '../../../../core/models/service.model';
               <app-recommendation-match
                 [score]="98"
                 [reasons]="[
-                  'Hardware match: ' + (c.equipment?.smartphoneModel || 'iPhone 16 Pro Max 4K ProRes'),
-                  'Category expert with 4.95+ average rating in Reels & TikTok',
-                  'Fast delivery turnaround (avg. 48h)'
+                  'Équipement certifié : ' + (c.equipment?.smartphoneModel || 'iPhone 16 Pro Max 4K ProRes'),
+                  'Experte de catégorie avec note moyenne de 4.95+ en Reels & TikTok',
+                  'Délai de livraison rapide (moy. 48h)'
                 ]"
               ></app-recommendation-match>
 
               <!-- Verified Mobile Studio Hardware -->
               <div class="equipment-card card-glass">
                 <div class="eq-head flex-between">
-                  <h3>📱 Mobile Gear Rig</h3>
-                  <span class="badge badge-primary">Verified Setup</span>
+                  <h3>Équipement Mobile</h3>
+                  <span class="badge badge-primary">Équipement vérifié</span>
                 </div>
-                <p class="eq-desc">Verified hardware used to produce 4K HDR deliverables.</p>
+                <p class="eq-desc">Matériel vérifié utilisé pour produire des livrables 4K HDR.</p>
 
                 <div class="eq-list">
                   <div class="eq-item">
-                    <span class="eq-label">Primary Smartphone:</span>
+                    <span class="eq-label">Smartphone principal :</span>
                     <strong class="eq-val">{{ c.equipment?.smartphoneModel || 'iPhone 16 Pro Max' }}</strong>
                   </div>
 
                   @if (c.equipment?.gimbal) {
                     <div class="eq-item">
-                      <span class="eq-label">Stabilization:</span>
+                      <span class="eq-label">Stabilisation :</span>
                       <strong class="eq-val">{{ c.equipment?.gimbal }}</strong>
                     </div>
                   }
 
                   @if (c.equipment?.audioGear) {
                     <div class="eq-item">
-                      <span class="eq-label">Audio & Mics:</span>
+                      <span class="eq-label">Audio & Micros :</span>
                       <strong class="eq-val">{{ c.equipment?.audioGear }}</strong>
                     </div>
                   }
 
                   @if (c.equipment?.lighting) {
                     <div class="eq-item">
-                      <span class="eq-label">Portable Lighting:</span>
+                      <span class="eq-label">Éclairage portable :</span>
                       <strong class="eq-val">{{ c.equipment?.lighting }}</strong>
                     </div>
                   }
                 </div>
 
                 <div class="escrow-notice">
-                  <span class="shield-icon">🛡️</span>
+                  <span class="shield-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                  </span>
                   <div>
-                    <strong>SnapConnect Escrow Protection</strong>
-                    <p>Funds are held safely until you approve final video/photo delivery.</p>
+                    <strong>Garantie Séquestre SnapConnect</strong>
+                    <p>Vos fonds sont sécurisés jusqu'à votre validation finale des médias 4K.</p>
                   </div>
                 </div>
               </div>
@@ -260,6 +327,43 @@ import { Service } from '../../../../core/models/service.model';
     .creator-profile-page {
       padding-top: calc(var(--navbar-height) + var(--space-8));
       padding-bottom: var(--space-20);
+    }
+
+    .public-preview-banner {
+      background: rgba(20, 168, 0, 0.12);
+      border: 1px solid rgba(20, 168, 0, 0.35);
+      border-radius: var(--radius-lg);
+      padding: 0.75rem 1.25rem;
+      margin-bottom: var(--space-6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      color: #e2e8f0;
+      font-size: var(--font-size-sm);
+    }
+    .preview-banner-left {
+      display: flex;
+      align-items: center;
+      color: #86efac;
+    }
+    .preview-banner-left strong {
+      color: #22c55e;
+      margin: 0 4px;
+    }
+    .preview-back-btn {
+      white-space: nowrap;
+      background: #14a800;
+      color: #ffffff;
+      border: none;
+      padding: 6px 14px;
+      font-weight: 600;
+      border-radius: 9999px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .preview-back-btn:hover {
+      background: #108a00;
     }
 
     .profile-header-card {
@@ -291,6 +395,14 @@ import { Service } from '../../../../core/models/service.model';
       object-fit: cover;
       border: 3px solid var(--color-primary-500);
       box-shadow: var(--shadow-glow);
+    }
+
+    .empty-avatar-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.04);
+      color: rgba(255, 255, 255, 0.35);
     }
 
     .verified-badge-large {
@@ -658,11 +770,68 @@ import { Service } from '../../../../core/models/service.model';
   `]
 })
 export class CreatorProfileComponent implements OnInit {
-  private route = inject(ActivatedRoute);
+  private route  = inject(ActivatedRoute);
+  private router = inject(Router);
+  readonly auth  = inject(AuthService);
+  private http   = inject(HttpClient);
 
   creator = signal<CreatorProfile | null>(null);
   activeTab = signal<'PORTFOLIO' | 'SERVICES' | 'ABOUT' | 'REVIEWS'>('PORTFOLIO');
   selectedMedia = signal<PortfolioItem | null>(null);
+
+  isOwnProfile = computed(() => {
+    const user = this.auth.currentUser();
+    const c = this.creator();
+    if (!user) return false;
+    if (!c) return true;
+    return String(user.id) === String(c.id) ||
+           String(user.id) === String(c.userId) ||
+           String(c.id) === 'me' ||
+           (!!user.email && user.email.toLowerCase() === (c.email || '').toLowerCase());
+  });
+
+  displayAvatarUrl = computed(() => {
+    const c = this.creator();
+    const user = this.auth.currentUser();
+    const isOwn = this.isOwnProfile();
+
+    const clean = (url?: string | null) => {
+      if (!url) return '';
+      const s = String(url).trim();
+      if (s.includes('photo-1534528741775') || s.includes('photo-1535713875002') || s.includes('placeholder')) return '';
+      return s;
+    };
+
+    // 1. If viewing own profile, prioritize dedicated avatar and currentUser avatar
+    if (isOwn && user) {
+      const dedicated = clean(this.auth.getDedicatedAvatar(user.id, user.email));
+      if (dedicated) return dedicated;
+
+      const userAvatar = clean(user.avatarUrl);
+      if (userAvatar) return userAvatar;
+
+      try {
+        const raw = localStorage.getItem(`snapconnect_creator_profile_${user.id}`);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          const cached = clean(parsed?.avatarUrl);
+          if (cached) return cached;
+        }
+      } catch {}
+    }
+
+    // 2. Creator avatar from loaded profile
+    const cAvatar = clean(c?.avatarUrl);
+    if (cAvatar) return cAvatar;
+
+    // 3. Dedicated storage for creator ID
+    if (c?.id || c?.userId) {
+      const dedicated = clean(this.auth.getDedicatedAvatar(c.id || c.userId, c.email));
+      if (dedicated) return dedicated;
+    }
+
+    return '';
+  });
 
   portfolioItems: PortfolioItem[] = [
     {
@@ -703,54 +872,417 @@ export class CreatorProfileComponent implements OnInit {
     }
   ];
 
-  services: Service[] = [
-    {
-      id: 'srv-1',
-      creatorId: 'cr-1',
-      creatorName: 'Sarah Jenkins',
-      title: '3 Viral UGC TikToks shot on iPhone 16 Pro with Voiceover',
-      description: 'I will shoot 4K vertical footage, add trending subtitles and deliver in 48h.',
-      categoryName: 'Reels & TikTok',
-      rating: 5.0,
-      reviewsCount: 31,
-      status: 'ACTIVE',
-      packages: [{ tier: 'BASIC', title: 'Starter', description: '1x UGC Video', price: 75, deliveryDays: 2, revisionsIncluded: 2, deliverables: ['1x 4K Video'] }]
-    }
-  ];
-
   sampleReviews = [
-    { id: 'r-1', authorName: 'Alex M. (Bloom Cosmetics)', rating: 5.0, date: '2 days ago', comment: 'Amazing 4K footage! Her iPhone 16 Pro shots look even better than our previous studio DSLR camera crew, and delivered in 36 hours!' },
-    { id: 'r-2', authorName: 'Julien T. (Burger Lab)', rating: 5.0, date: '1 week ago', comment: 'Our TikTok engagement blew up 400% after posting her food reels. Highly recommended mobile creator.' }
+    { id: 'r-1', authorName: 'Amine B. (Maison Alyssa Cosmétiques)', rating: 5.0, date: 'Il y a 2 jours', comment: 'Qualité 4K exceptionnelle ! Ses vidéos sur iPhone 16 Pro ont donné un rendu supérieur à notre ancienne équipe DSLR, livré en moins de 36 heures.' },
+    { id: 'r-2', authorName: 'Karim T. (Gourmandise & Co Tunis)', rating: 5.0, date: 'Il y a 1 semaine', comment: 'L\'engagement sur notre page Instagram a bondi de 300% après la publication de ses Reels culinaires. Créatrice très pro.' }
   ];
 
   ngOnInit(): void {
-    const creatorId = this.route.snapshot.params['id'];
-    this.creator.set({
-      id: creatorId || 'cr-1',
-      userId: 'u-1',
-      fullName: 'Sarah Jenkins',
-      email: 'sarah.j@example.com',
-      avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
-      title: 'TikTok & Reels Viral Specialist',
-      bio: 'Professional mobile videographer with 400K+ views on client TikToks. Specializing in fast-paced cuts, trendy transitions, and hook psychology. All content shot natively in 4K 60fps ProRes Log on iPhone 16 Pro Max.',
-      location: 'Paris, France',
-      hourlyRate: 45,
-      rating: 4.95,
-      reviewsCount: 38,
-      completedProjectsCount: 47,
-      availabilityStatus: 'AVAILABLE',
-      isVerified: true,
-      specializations: ['Reels & TikTok', 'UGC Content', 'Fashion', 'Product Photography'],
-      equipment: {
-        smartphoneModel: 'iPhone 16 Pro Max (4K ProRes)',
-        gimbal: 'DJI Osmo Mobile 6',
-        audioGear: 'Rode Wireless Pro 32-bit float',
-        lighting: 'Aputure Amaran MC RGB'
-      }
+    this.route.paramMap.subscribe(params => {
+      const creatorId = params.get('id') || 'cr-1';
+      this.loadCreator(creatorId);
     });
   }
 
-  openContactModal(): void {
-    alert('Message conversation opened with Sarah Jenkins!');
+  loadCreator(creatorId: string): void {
+    const CREATORS_DIRECTORY: Record<string, CreatorProfile> = {
+      'cr-1': {
+        id: 'cr-1',
+        userId: 'u-1',
+        fullName: 'Sarah Ben Salem',
+        email: 'sarah.bensalem@snapconnect.tn',
+        avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
+        title: 'Spécialiste TikTok & Reels UGC Viral',
+        bio: 'Vidéaste mobile professionnelle basée à Tunis avec plus de 500K vues cumulées. Spécialisée dans les montages dynamiques, les accroches virales et les transitions tendances. Tout le contenu est capturé en 4K 60fps ProRes Log sur iPhone 16 Pro Max.',
+        location: 'Tunis (La Marsa), Tunisie',
+        hourlyRate: 45,
+        rating: 4.95,
+        reviewsCount: 38,
+        completedProjectsCount: 47,
+        availabilityStatus: 'AVAILABLE',
+        isVerified: true,
+        specializations: ['Reels & TikTok', 'UGC Content', 'Fashion', 'Product Photography'],
+        equipment: {
+          smartphoneModel: 'iPhone 16 Pro Max (4K ProRes)',
+          gimbal: 'DJI Osmo Mobile 6',
+          audioGear: 'Rode Wireless Pro 32-bit float',
+          lighting: 'Aputure Amaran MC RGB'
+        }
+      },
+      'cr-2': {
+        id: 'cr-2',
+        userId: 'u-2',
+        fullName: 'Mehdi Trabelsi',
+        email: 'mehdi.trabelsi@snapconnect.tn',
+        avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
+        title: 'Storyteller Mobile Food & Gastronomie',
+        bio: 'Création de Reels 4K 60fps alléchants pour restaurants gastronomiques, salons de thé et hôtels de charme en Tunisie. Tournage sur Galaxy S24 Ultra avec objectifs macro et étalonnage cinéma.',
+        location: 'Sousse, Tunisie',
+        hourlyRate: 50,
+        rating: 5.0,
+        reviewsCount: 29,
+        completedProjectsCount: 34,
+        availabilityStatus: 'AVAILABLE',
+        isVerified: true,
+        specializations: ['Food & Restaurant', 'Product Photo', 'Promo Video'],
+        equipment: {
+          smartphoneModel: 'Samsung Galaxy S24 Ultra (8K/4K HDR)',
+          gimbal: 'Zhiyun Smooth 5S',
+          audioGear: 'DJI Mic 2',
+          lighting: 'Nanlite LitoLite 5C'
+        }
+      },
+      'cr-3': {
+        id: 'cr-3',
+        userId: 'u-3',
+        fullName: 'Yassine Gharbi',
+        email: 'yassine.gharbi@snapconnect.tn',
+        avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
+        title: 'Visites Immobilières & Architecture Mobile 4K',
+        bio: 'Prises de vue ultra-stabilisées au stabilisateur pour villas haut standing, maisons d\'hôtes et appartements à Tunis, Gammarth et Hammamet.',
+        location: 'Hammamet / Tunis, Tunisie',
+        hourlyRate: 60,
+        rating: 4.88,
+        reviewsCount: 22,
+        completedProjectsCount: 28,
+        availabilityStatus: 'AVAILABLE',
+        isVerified: true,
+        specializations: ['Real Estate', 'Commercials', 'Events'],
+        equipment: {
+          smartphoneModel: 'iPhone 15 Pro Max',
+          gimbal: 'Insta360 Flow',
+          audioGear: 'Hollyland Lark M2',
+          lighting: 'Aputure Amaran MC'
+        }
+      },
+      'cr-4': {
+        id: 'cr-4',
+        userId: 'u-4',
+        fullName: 'Khalil Jaziri',
+        email: 'khalil.jaziri@snapconnect.tn',
+        avatarUrl: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80',
+        title: 'Reels Événementiels & Soirées en Direct',
+        bio: 'Couverture dynamique d\'événements, mariages modernes, concerts et festivals en Tunisie. Prises de vue en basse lumière avec livraison express en 24h.',
+        location: 'Sfax / Tunis, Tunisie',
+        hourlyRate: 40,
+        rating: 4.85,
+        reviewsCount: 16,
+        completedProjectsCount: 20,
+        availabilityStatus: 'AVAILABLE',
+        isVerified: true,
+        specializations: ['Events & Moments', 'Reels & TikTok', 'Nightlife'],
+        equipment: {
+          smartphoneModel: 'iPhone 16 Pro (4K 60fps)',
+          gimbal: 'DJI OM 5',
+          audioGear: 'Shure MV88+',
+          lighting: 'Godox LED6R'
+        }
+      },
+      'cr-5': {
+        id: 'cr-5',
+        userId: 'u-5',
+        fullName: 'Mariem Mansour',
+        email: 'mariem.mansour@snapconnect.tn',
+        avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80',
+        title: 'Styliste Produit E-commerce & Créatrice UGC',
+        bio: 'Mise en scène studio et packshots macro pour cosmétiques bio, bijoux artisanaux tunisiens et marques D2C locales. Haute conversion e-commerce garantie.',
+        location: 'Ariana (Ennasr), Tunisie',
+        hourlyRate: 55,
+        rating: 4.98,
+        reviewsCount: 45,
+        completedProjectsCount: 52,
+        availabilityStatus: 'AVAILABLE',
+        isVerified: true,
+        specializations: ['Product Photography', 'UGC Content', 'Fashion'],
+        equipment: {
+          smartphoneModel: 'iPhone 15 Pro Max (ProRes)',
+          gimbal: 'DJI OM 6',
+          audioGear: 'Rode Wireless ME',
+          lighting: 'Neewer 660 LED Panel Kit'
+        }
+      },
+      'cr-6': {
+        id: 'cr-6',
+        userId: 'u-6',
+        fullName: 'Aziz Khemir',
+        email: 'aziz.khemir@snapconnect.tn',
+        avatarUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80',
+        title: 'Vidéaste Mobile Automobile & Streetwear',
+        bio: 'Plans dynamiques de véhicules, mode urbaine et séquences cinématographiques 4K 120fps au smartphone pour marques de mode et concessionnaires en Tunisie.',
+        location: 'Bizerte / Tunis, Tunisie',
+        hourlyRate: 65,
+        rating: 4.92,
+        reviewsCount: 27,
+        completedProjectsCount: 31,
+        availabilityStatus: 'AVAILABLE',
+        isVerified: true,
+        specializations: ['Promo Video', 'Fashion', 'Automotive'],
+        equipment: {
+          smartphoneModel: 'Samsung Galaxy S24 Ultra (8K/4K 120fps)',
+          gimbal: 'Zhiyun Smooth 5S',
+          audioGear: 'DJI Mic 2',
+          lighting: 'Aputure Amaran 60x'
+        }
+      }
+    };
+
+    // Flexible resolution by id, alias or name
+    const normalizedKey = String(creatorId || '').trim().toLowerCase();
+    const current = this.auth.currentUser();
+    let baseCreator: CreatorProfile | undefined;
+
+    // 1. Prioritize current logged in creator (no override by mock cr-1)
+    const isCurrent = !!current && (
+      String(current.id) === String(creatorId) ||
+      (!!current.email && current.email.toLowerCase() === normalizedKey) ||
+      creatorId === 'me'
+    );
+
+    const cleanPhoto = (p?: string | null) => (!p || p.includes('photo-1534528741775') || p.includes('photo-1535713875002') || p.includes('placeholder')) ? '' : p.trim();
+
+    if (isCurrent && current) {
+      let customCache: any = {};
+      try {
+        const raw = localStorage.getItem(`snapconnect_creator_profile_${current.id}`);
+        if (raw) customCache = JSON.parse(raw);
+      } catch {}
+
+      const dedicated = cleanPhoto(this.auth.getDedicatedAvatar(current.id, current.email));
+      const userAvatar = dedicated || cleanPhoto(current.avatarUrl) || cleanPhoto(customCache.avatarUrl) || '';
+
+      baseCreator = {
+        id: String(current.id),
+        userId: String(current.id),
+        fullName: current.fullName || customCache.fullName || 'Mon Profil Créateur',
+        email: current.email,
+        avatarUrl: userAvatar,
+        title: current.title || customCache.title || 'Vidéaste Mobile 4K & UGC',
+        bio: current.bio || customCache.bio || 'Créateur certifié de contenu smartphone sur SnapConnect.',
+        location: current.location || customCache.location || 'Tunis, Tunisie',
+        hourlyRate: current.hourlyRate || customCache.hourlyRate || 45,
+        rating: 5.0,
+        reviewsCount: 1,
+        completedProjectsCount: 1,
+        availabilityStatus: 'AVAILABLE',
+        isVerified: true,
+        specializations: customCache.skills || ['Reels & TikTok', 'UGC Content', 'Fashion'],
+        equipment: {
+          smartphoneModel: current.smartphoneModel || customCache.smartphoneModel || 'iPhone 16 Pro Max (4K ProRes)',
+          gimbal: customCache.gimbal || 'DJI Osmo Mobile 6',
+          audioGear: customCache.audioGear || 'Micro Sans Fil 48kHz',
+          lighting: 'LED RGB'
+        }
+      };
+    } else if (CREATORS_DIRECTORY[creatorId]) {
+      baseCreator = CREATORS_DIRECTORY[creatorId];
+    } else if (normalizedKey === 'cr-1' || normalizedKey.includes('sarah')) {
+      baseCreator = CREATORS_DIRECTORY['cr-1'];
+    } else if (normalizedKey === 'cr-2' || normalizedKey.includes('mehdi')) {
+      baseCreator = CREATORS_DIRECTORY['cr-2'];
+    } else if (normalizedKey === 'cr-3' || normalizedKey.includes('yassine')) {
+      baseCreator = CREATORS_DIRECTORY['cr-3'];
+    } else if (normalizedKey === 'cr-4' || normalizedKey.includes('khalil')) {
+      baseCreator = CREATORS_DIRECTORY['cr-4'];
+    } else if (normalizedKey === 'cr-5' || normalizedKey.includes('mariem')) {
+      baseCreator = CREATORS_DIRECTORY['cr-5'];
+    } else if (normalizedKey === 'cr-6' || normalizedKey.includes('aziz')) {
+      baseCreator = CREATORS_DIRECTORY['cr-6'];
+    } else if (normalizedKey === 'sondes' || normalizedKey.includes('sondes')) {
+      baseCreator = {
+        id: 'sondes',
+        userId: 'u-sondes',
+        fullName: 'Sondes',
+        email: 'sondes@snapconnect.tn',
+        avatarUrl: this.auth.getDedicatedAvatar('sondes', 'sondes@snapconnect.tn') || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
+        title: 'Créatrice Vidéo UGC & Contenu Smartphone 4K',
+        bio: 'Spécialiste de la création de contenu mobile authentique, dynamique et engageant pour marques e-commerce et lifestyle en Tunisie. Prises de vue soignées en 4K 60fps.',
+        location: 'Ain Draham / Jendouba, Tunisie',
+        hourlyRate: 50,
+        rating: 5.0,
+        reviewsCount: 38,
+        completedProjectsCount: 42,
+        availabilityStatus: 'AVAILABLE',
+        isVerified: true,
+        specializations: ['UGC Content', 'Reels & TikTok', 'Mode & Hijab', 'Shooting Produit'],
+        equipment: {
+          smartphoneModel: 'iPhone 13 Pro (4K 60fps ProRes)',
+          gimbal: 'DJI Osmo Mobile 6',
+          audioGear: 'Micro HF Sans Fil',
+          lighting: 'Anneau LED & Bicolore'
+        }
+      };
+    } else {
+      let customCache: any = {};
+      try {
+        const raw = localStorage.getItem(`snapconnect_creator_profile_${creatorId}`);
+        if (raw) customCache = JSON.parse(raw);
+      } catch {}
+
+      const dedicated = cleanPhoto(this.auth.getDedicatedAvatar(creatorId));
+      const rawPhoto = dedicated || customCache.avatarUrl || '';
+      const fallbackAvatar = cleanPhoto(rawPhoto);
+
+      baseCreator = {
+        id: creatorId || 'cr-custom',
+        userId: creatorId || 'cr-custom',
+        fullName: customCache.fullName || 'Créateur SnapConnect',
+        email: customCache.email || 'creator@snapconnect.tn',
+        avatarUrl: fallbackAvatar,
+        title: customCache.title || 'Créateur de Contenu Mobile 4K',
+        bio: customCache.bio || 'Créateur certifié SnapConnect spécialisé dans les tournages smartphone haute définition.',
+        location: customCache.location || 'Tunis, Tunisie',
+        hourlyRate: customCache.hourlyRate || 45,
+        rating: 5.0,
+        reviewsCount: 1,
+        completedProjectsCount: 1,
+        availabilityStatus: 'AVAILABLE',
+        isVerified: true,
+        specializations: customCache.skills || ['Reels & TikTok', 'Photos Produits', 'Vidéographie Smartphone'],
+        equipment: {
+          smartphoneModel: customCache.smartphoneModel || 'iPhone 16 Pro Max (4K ProRes)',
+          gimbal: customCache.gimbal || 'DJI Osmo Mobile 6',
+          audioGear: customCache.audioGear || 'Rode Wireless Pro',
+          lighting: 'LED RGB'
+        }
+      };
+    }
+
+    // Check cached custom profile
+    try {
+      const cached = localStorage.getItem(`snapconnect_creator_profile_${creatorId}`);
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (parsed && parsed.fullName) {
+          const parsedAvatar = cleanPhoto(parsed.avatarUrl);
+          baseCreator = {
+            ...baseCreator,
+            id: String(parsed.id || creatorId),
+            userId: String(parsed.id || creatorId),
+            fullName: parsed.fullName,
+            email: parsed.email || baseCreator.email,
+            avatarUrl: parsedAvatar || baseCreator.avatarUrl,
+            title: parsed.title || baseCreator.title,
+            bio: parsed.bio || baseCreator.bio,
+            location: parsed.location || baseCreator.location,
+            hourlyRate: parsed.hourlyRate || baseCreator.hourlyRate,
+            equipment: {
+              ...baseCreator.equipment,
+              smartphoneModel: parsed.smartphoneModel || baseCreator.equipment?.smartphoneModel || 'iPhone 16 Pro Max (4K ProRes)'
+            }
+          };
+        }
+      }
+    } catch {}
+
+    this.creator.set(baseCreator);
+
+    // Load contextual portfolio items for this creator
+    const ALL_PORTFOLIO_ITEMS: Record<string, PortfolioItem[]> = {
+      'cr-1': [
+        { id: 'p-1', creatorId: 'cr-1', title: 'Neon Streetwear 4K 60fps', mediaType: 'IMAGE', mediaUrl: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80', equipmentUsed: 'iPhone 16 Pro Max • DJI OM 6', createdAt: '2026-08-01' },
+        { id: 'p-2', creatorId: 'cr-1', title: 'Cosmetics Texture Macro', mediaType: 'IMAGE', mediaUrl: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80', equipmentUsed: 'iPhone 16 Pro 5x Telephoto', createdAt: '2026-08-05' },
+        { id: 'p-3', creatorId: 'cr-1', title: 'Coffee Latte Art Pour', mediaType: 'IMAGE', mediaUrl: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80', equipmentUsed: 'iPhone 16 Pro 4K 120fps', createdAt: '2026-08-10' },
+        { id: 'p-4', creatorId: 'cr-1', title: 'Sunset Roof Lookbook', mediaType: 'IMAGE', mediaUrl: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80', equipmentUsed: 'iPhone 16 Pro ProRes Log', createdAt: '2026-08-12' }
+      ],
+      'cr-2': [
+        { id: 'p-21', creatorId: 'cr-2', title: 'Brioche Dorée & Chocolat Chaud 8K', mediaType: 'IMAGE', mediaUrl: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80', equipmentUsed: 'Galaxy S24 Ultra • Macro 200MP', createdAt: '2026-08-02' },
+        { id: 'p-22', creatorId: 'cr-2', title: 'Restaurant Gastronomique Sousse', mediaType: 'IMAGE', mediaUrl: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80', equipmentUsed: 'Galaxy S24 Ultra • Zhiyun Smooth 5S', createdAt: '2026-08-06' },
+        { id: 'p-23', creatorId: 'cr-2', title: 'Cocktail Signature Glacé', mediaType: 'IMAGE', mediaUrl: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=800&q=80', equipmentUsed: 'Galaxy S24 Ultra • 4K 60fps HDR', createdAt: '2026-08-11' }
+      ],
+      'cr-3': [
+        { id: 'p-31', creatorId: 'cr-3', title: 'Villa Contemporaine Gammarth', mediaType: 'IMAGE', mediaUrl: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=800&q=80', equipmentUsed: 'iPhone 15 Pro Max • Ultra Grand-Angle 4K', createdAt: '2026-08-03' },
+        { id: 'p-32', creatorId: 'cr-3', title: 'Piscine Miroir au Crépuscule', mediaType: 'IMAGE', mediaUrl: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80', equipmentUsed: 'iPhone 15 Pro Max • Insta360 Flow', createdAt: '2026-08-07' }
+      ],
+      'cr-4': [
+        { id: 'p-41', creatorId: 'cr-4', title: 'Concert Live Festival Carthage', mediaType: 'IMAGE', mediaUrl: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80', equipmentUsed: 'iPhone 16 Pro • Basse lumière 4K', createdAt: '2026-08-04' },
+        { id: 'p-42', creatorId: 'cr-4', title: 'Soirée Gala Hôtel 5*', mediaType: 'IMAGE', mediaUrl: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80', equipmentUsed: 'iPhone 16 Pro • DJI OM 5', createdAt: '2026-08-08' }
+      ],
+      'cr-5': [
+        { id: 'p-51', creatorId: 'cr-5', title: 'Flacon Sérum Bio & Gouttes d\'Eau', mediaType: 'IMAGE', mediaUrl: 'https://images.unsplash.com/photo-1608248597359-0524458319f3?auto=format&fit=crop&w=800&q=80', equipmentUsed: 'iPhone 15 Pro Max • Neewer LED Panel Kit', createdAt: '2026-08-05' },
+        { id: 'p-52', creatorId: 'cr-5', title: 'Bijoux Traditionnels Écrin Velours', mediaType: 'IMAGE', mediaUrl: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=800&q=80', equipmentUsed: 'iPhone 15 Pro Max • Macro Studio', createdAt: '2026-08-09' }
+      ],
+      'cr-6': [
+        { id: 'p-61', creatorId: 'cr-6', title: 'Supercar & Reflets Néon Nuit', mediaType: 'IMAGE', mediaUrl: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80', equipmentUsed: 'Galaxy S24 Ultra • 4K 120fps Rolling Shot', createdAt: '2026-08-06' },
+        { id: 'p-62', creatorId: 'cr-6', title: 'Streetwear Lookbook Médina Tunis', mediaType: 'IMAGE', mediaUrl: 'https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=800&q=80', equipmentUsed: 'Galaxy S24 Ultra • Zhiyun Smooth 5S', createdAt: '2026-08-10' }
+      ],
+      'sondes': [
+        { id: 'p-s1', creatorId: 'sondes', title: 'Hijabi Brand Fashion Lookbook 4K', mediaType: 'VIDEO', mediaUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4', equipmentUsed: 'iPhone 13 Pro • 4K 60fps', createdAt: '2026-09-15' },
+        { id: 'p-s2', creatorId: 'sondes', title: 'Cosmetics & Skincare UGC Reel', mediaType: 'VIDEO', mediaUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4', equipmentUsed: 'iPhone 13 Pro • Macro', createdAt: '2026-09-18' }
+      ]
+    };
+
+    this.portfolioItems = ALL_PORTFOLIO_ITEMS[baseCreator.id] || ALL_PORTFOLIO_ITEMS['cr-1'];
+
+    // Also check local portfolio uploads
+    try {
+      const cachedPortfolio = localStorage.getItem(`snapconnect_creator_portfolio_${creatorId}`);
+      if (cachedPortfolio) {
+        const parsedPort = JSON.parse(cachedPortfolio);
+        if (Array.isArray(parsedPort) && parsedPort.length > 0) {
+          this.portfolioItems = [...parsedPort, ...this.portfolioItems];
+        }
+      }
+    } catch {}
+
+    // If ID is not in seed directory, fetch real user profile from MySQL
+    if (creatorId && !CREATORS_DIRECTORY[creatorId]) {
+      this.http.get<any>('http://localhost:8080/api/creators/' + creatorId).subscribe({
+        next: (u) => {
+          if (u) {
+            const cleanServerAvatar = cleanPhoto(u.avatarUrl);
+            const dedicated = cleanPhoto(this.auth.getDedicatedAvatar(u.id, u.email));
+            const resolved = cleanServerAvatar || dedicated || baseCreator!.avatarUrl || '';
+            this.creator.set({
+              id: String(u.id),
+              userId: String(u.id),
+              fullName: u.fullName || baseCreator!.fullName,
+              email: u.email || baseCreator!.email,
+              avatarUrl: resolved,
+              title: u.title || baseCreator!.title,
+              bio: u.bio || baseCreator!.bio,
+              location: u.location || baseCreator!.location,
+              hourlyRate: u.hourlyRate || baseCreator!.hourlyRate,
+              rating: baseCreator!.rating,
+              reviewsCount: baseCreator!.reviewsCount,
+              completedProjectsCount: baseCreator!.completedProjectsCount,
+              availabilityStatus: 'AVAILABLE',
+              isVerified: u.isVerified ?? true,
+              specializations: baseCreator!.specializations,
+              equipment: {
+                smartphoneModel: u.smartphoneModel || baseCreator!.equipment?.smartphoneModel || 'iPhone 16 Pro Max (4K ProRes)',
+                gimbal: 'DJI Osmo Mobile 6',
+                audioGear: 'Rode Wireless Pro 32-bit float',
+                lighting: 'Aputure Amaran MC RGB'
+              }
+            });
+          }
+        },
+        error: () => {}
+      });
+    }
+  }
+
+  contactCreator(): void {
+    const c = this.creator();
+    if (!c) return;
+
+    if (!this.auth.isAuthenticated()) {
+      this.router.navigate(['/auth/login'], { queryParams: { returnUrl: `/creators/${c.id}` } });
+      return;
+    }
+
+    const targetRoute = this.auth.isCreator() ? '/creator/messages' : '/client/messages';
+    const targetUserId = !isNaN(Number(c.userId)) ? Number(c.userId) : (!isNaN(Number(c.id)) ? Number(c.id) : null);
+
+    this.router.navigate([targetRoute], {
+      queryParams: {
+        creatorId: targetUserId,
+        creatorName: c.fullName,
+        creatorAvatar: this.displayAvatarUrl() || c.avatarUrl,
+        creatorEmail: c.email,
+        contextType: 'CREATOR_PROFILE',
+        contextTitle: c.title
+      }
+    });
   }
 }

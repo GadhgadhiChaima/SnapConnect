@@ -57,6 +57,35 @@ export interface DisputeResolution {
   resolvedBy: string;
 }
 
+export interface DisputeMessage {
+  id: number;
+  disputeId: number;
+  senderId: number;
+  senderName: string;
+  senderRole: 'CLIENT' | 'CREATOR' | 'ADMIN';
+  content: string;
+  attachmentUrl?: string;
+  attachmentName?: string;
+  attachmentType?: string;
+  createdAt: string;
+}
+
+export interface UserSanction {
+  id: number;
+  userId: number;
+  userName: string;
+  userEmail: string;
+  userRole: string;
+  disputeId?: number;
+  sanctionType: 'WARNING' | 'BLOCK_3_DAYS' | 'BLOCK_15_DAYS' | 'BLOCK_30_DAYS' | 'BLOCK_1_YEAR' | 'PERMANENT_BLOCK';
+  reason: string;
+  suspensionStart: string;
+  suspensionEnd?: string;
+  active: boolean;
+  appliedByAdminId?: number;
+  createdAt: string;
+}
+
 export interface Dispute {
   id: string;
   contractId: string;
@@ -74,6 +103,13 @@ export interface Dispute {
   evidence: DisputeEvidence[];
   timeline: DisputeTimelineEvent[];
   resolution?: DisputeResolution;
+  responseDeadline?: string;
+  lastResponseAt?: string;
+  lastResponseByRole?: string;
+  sanctionApplied?: string;
+  remainingSeconds?: number;
+  isExpired?: boolean;
+  alertLevel?: 'NORMAL' | 'WARNING' | 'CRITICAL' | 'EXPIRED';
   createdAt: string;
   updatedAt: string;
 }

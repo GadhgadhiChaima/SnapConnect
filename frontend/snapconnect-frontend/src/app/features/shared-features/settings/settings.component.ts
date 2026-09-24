@@ -14,47 +14,47 @@ import { AuthService } from '../../../core/services/auth.service';
     <main class="settings-page">
       <div class="container-narrow">
         <div class="page-header">
-          <span class="badge badge-primary">Account</span>
-          <h1>Profile & Preferences</h1>
-          <p>Update your personal information, notification settings, and mobile hardware setup.</p>
+          <span class="badge badge-primary">Compte</span>
+          <h1>Profil & Préférences</h1>
+          <p>Modifiez vos informations personnelles, notifications et configuration de tournage mobile.</p>
         </div>
 
         <form (ngSubmit)="save()" class="settings-card card-glass animate-scale-in">
           <div class="section-part">
-            <h3>Personal Information</h3>
+            <h3>Informations personnelles</h3>
             <div class="form-group">
-              <label class="form-label">Full Name</label>
+              <label class="form-label">Nom complet</label>
               <input type="text" [(ngModel)]="fullName" name="name" class="form-input" required />
             </div>
 
             <div class="form-group">
-              <label class="form-label">Email Address</label>
+              <label class="form-label">Adresse email</label>
               <input type="email" [(ngModel)]="email" name="email" class="form-input" disabled />
             </div>
           </div>
 
           @if (auth.isCreator()) {
             <div class="section-part">
-              <h3>📱 Smartphone & Rig Setup</h3>
+              <h3>Équipement smartphone & tournage</h3>
               <div class="form-group">
-                <label class="form-label">Primary Smartphone</label>
-                <input type="text" [(ngModel)]="phoneModel" name="phone" class="form-input" placeholder="e.g. iPhone 16 Pro Max" />
+                <label class="form-label">Smartphone principal</label>
+                <input type="text" [(ngModel)]="phoneModel" name="phone" class="form-input" placeholder="ex. iPhone 16 Pro Max" />
               </div>
 
               <div class="form-group">
-                <label class="form-label">Stabilizer / Gimbal</label>
-                <input type="text" [(ngModel)]="gimbal" name="gimbal" class="form-input" placeholder="e.g. DJI Osmo Mobile 6" />
+                <label class="form-label">Stabilisateur / Gimbal</label>
+                <input type="text" [(ngModel)]="gimbal" name="gimbal" class="form-input" placeholder="ex. DJI Osmo Mobile 6" />
               </div>
 
               <div class="form-group">
-                <label class="form-label">Audio System</label>
-                <input type="text" [(ngModel)]="audio" name="audio" class="form-input" placeholder="e.g. Rode Wireless Pro" />
+                <label class="form-label">Système audio & micros</label>
+                <input type="text" [(ngModel)]="audio" name="audio" class="form-input" placeholder="ex. Rode Wireless Pro" />
               </div>
             </div>
           }
 
           <div class="actions">
-            <button type="submit" class="btn btn-primary btn-md">Save Settings</button>
+            <button type="submit" class="btn btn-primary btn-md">Enregistrer les paramètres</button>
           </div>
         </form>
       </div>
@@ -77,13 +77,13 @@ import { AuthService } from '../../../core/services/auth.service';
 export class SettingsComponent {
   auth = inject(AuthService);
 
-  fullName = this.auth.currentUser()?.fullName || 'Sarah Jenkins';
-  email = this.auth.currentUser()?.email || 'sarah.j@example.com';
+  fullName = this.auth.currentUser()?.fullName || 'Sarah Ben Salem';
+  email = this.auth.currentUser()?.email || 'sarah.bensalem@snapconnect.tn';
   phoneModel = 'iPhone 16 Pro Max';
   gimbal = 'DJI Osmo Mobile 6';
   audio = 'Rode Wireless Pro';
 
   save(): void {
-    alert('Settings saved successfully!');
+    alert('Paramètres enregistrés avec succès !');
   }
 }

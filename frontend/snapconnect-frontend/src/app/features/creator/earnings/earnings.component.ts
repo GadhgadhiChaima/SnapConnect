@@ -18,16 +18,20 @@ import { TransactionType } from '../../../core/models/wallet.model';
         <!-- Header -->
         <div class="page-header flex-between">
           <div>
-            <span class="badge badge-success">Creator Financial Studio</span>
-            <h1>My Earnings & Payouts</h1>
-            <p>Track released milestone payments, pending escrow balances, and withdraw earnings to your bank account.</p>
+            <span class="badge badge-success">Studio Financier Créateur</span>
+            <h1>Mes revenus & Retraits</h1>
+            <p>Suivez vos paiements libérés, les fonds en attente sous séquestre et demandez vos virements bancaires.</p>
           </div>
           <div class="header-actions">
             <button (click)="openWithdrawModal.set(true)" class="btn btn-primary btn-md">
-              💳 Request Bank Payout
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 6px;">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                <line x1="1" y1="10" x2="23" y2="10"></line>
+              </svg>
+              Demander un virement bancaire
             </button>
             <a routerLink="/creator/contracts" class="btn btn-outline btn-md">
-              Active Shoots & Escrow
+              Tournages & Séquestre actif
             </a>
           </div>
         </div>
@@ -35,38 +39,61 @@ import { TransactionType } from '../../../core/models/wallet.model';
         <!-- Metrics Grid -->
         <div class="metrics-grid">
           <div class="metric-card card-glass">
-            <div class="metric-icon green">💰</div>
+            <div class="metric-icon green">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                <line x1="2" y1="10" x2="22" y2="10"></line>
+              </svg>
+            </div>
             <div class="metric-info">
-              <span class="metric-label">Available for Payout</span>
-              <span class="metric-val">\${{ wallet().availableBalance }} <span class="cur">{{ wallet().currency }}</span></span>
-              <span class="sub-hint">Cleared & ready for withdrawal</span>
+              <span class="metric-label">Disponible pour Retrait</span>
+              <span class="metric-val">{{ wallet().availableBalance }} <span class="cur">{{ wallet().currency }}</span></span>
+              <span class="sub-hint">Fonds validés prêts pour virement</span>
             </div>
           </div>
 
           <div class="metric-card card-glass">
-            <div class="metric-icon purple">🔒</div>
+            <div class="metric-icon purple">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </div>
             <div class="metric-info">
-              <span class="metric-label">Pending in Escrow</span>
-              <span class="metric-val">\${{ wallet().pendingEscrow }} <span class="cur">{{ wallet().currency }}</span></span>
-              <span class="sub-hint">Awaiting client deliverable approval</span>
+              <span class="metric-label">En Attente (Séquestre)</span>
+              <span class="metric-val">{{ wallet().pendingEscrow }} <span class="cur">{{ wallet().currency }}</span></span>
+              <span class="sub-hint">En attente de validation client</span>
             </div>
           </div>
 
           <div class="metric-card card-glass">
-            <div class="metric-icon pink">📈</div>
+            <div class="metric-icon pink">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                <polyline points="17 6 23 6 23 12"></polyline>
+              </svg>
+            </div>
             <div class="metric-info">
-              <span class="metric-label">Total Gross Earnings</span>
-              <span class="metric-val">\${{ wallet().totalEarnings }} <span class="cur">{{ wallet().currency }}</span></span>
-              <span class="sub-hint">Lifetime content revenue</span>
+              <span class="metric-label">Total Gains Bruts</span>
+              <span class="metric-val">{{ wallet().totalEarnings }} <span class="cur">{{ wallet().currency }}</span></span>
+              <span class="sub-hint">Revenu global de création</span>
             </div>
           </div>
 
           <div class="metric-card card-glass">
-            <div class="metric-icon gold">🏦</div>
+            <div class="metric-icon gold">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="21" x2="21" y2="21"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+                <polyline points="5 6 12 3 19 6"></polyline>
+                <line x1="4" y1="10" x2="4" y2="21"></line>
+                <line x1="20" y1="10" x2="20" y2="21"></line>
+              </svg>
+            </div>
             <div class="metric-info">
-              <span class="metric-label">Total Withdrawn</span>
-              <span class="metric-val">\${{ wallet().totalWithdrawn }} <span class="cur">{{ wallet().currency }}</span></span>
-              <span class="sub-hint">Successfully transferred to bank</span>
+              <span class="metric-label">Total Retiré</span>
+              <span class="metric-val">{{ wallet().totalWithdrawn }} <span class="cur">{{ wallet().currency }}</span></span>
+              <span class="sub-hint">Transféré vers compte bancaire</span>
             </div>
           </div>
         </div>
@@ -75,17 +102,17 @@ import { TransactionType } from '../../../core/models/wallet.model';
         <div class="ledger-card card-glass">
           <div class="ledger-header flex-between">
             <div>
-              <h3>Earnings & Payout Ledger</h3>
-              <p class="ledger-sub">Traceable record of all escrow releases, platform fees, and bank transfers</p>
+              <h3>Journal des revenus & Retraits</h3>
+              <p class="ledger-sub">Historique certifié des libérations de séquestre, commissions de service et virements bancaires</p>
             </div>
 
             <!-- Filter -->
             <div class="filter-group">
               <select [(ngModel)]="selectedType" class="form-select select-sm">
-                <option value="ALL">All Transactions</option>
-                <option value="ESCROW_RELEASE">Released Payouts (💰)</option>
-                <option value="ESCROW_HOLD">Incoming Escrow (🔒)</option>
-                <option value="WITHDRAWAL">Bank Withdrawals (🏦)</option>
+                <option value="ALL">Toutes les transactions</option>
+                <option value="ESCROW_RELEASE">Paiements libérés</option>
+                <option value="ESCROW_HOLD">Séquestre en attente</option>
+                <option value="WITHDRAWAL">Virements bancaires</option>
               </select>
             </div>
           </div>
@@ -94,12 +121,12 @@ import { TransactionType } from '../../../core/models/wallet.model';
             <table class="ledger-table">
               <thead>
                 <tr>
-                  <th>Tx ID</th>
-                  <th>Date & Time</th>
+                  <th>Réf. Tx</th>
+                  <th>Date & Heure</th>
                   <th>Type</th>
                   <th>Description / Client</th>
-                  <th>Amount</th>
-                  <th>Status</th>
+                  <th>Montant</th>
+                  <th>Statut</th>
                 </tr>
               </thead>
               <tbody>
@@ -118,16 +145,16 @@ import { TransactionType } from '../../../core/models/wallet.model';
                       <div class="tx-desc">
                         <strong>{{ tx.description }}</strong>
                         @if (tx.counterpartyName) {
-                          <span class="counterparty">Client: {{ tx.counterpartyName }}</span>
+                          <span class="counterparty">Client : {{ tx.counterpartyName }}</span>
                         }
                         @if (tx.platformFee) {
-                          <span class="fee-note">(SnapConnect fee: -\${{ tx.platformFee }})</span>
+                          <span class="fee-note">(Commission SnapConnect : -{{ tx.platformFee }} DT)</span>
                         }
                       </div>
                     </td>
                     <td>
                       <strong class="tx-amount" [class.positive]="tx.type === 'ESCROW_RELEASE'" [class.negative]="tx.type === 'WITHDRAWAL'">
-                        {{ tx.type === 'ESCROW_RELEASE' ? '+' : tx.type === 'WITHDRAWAL' ? '-' : '' }}\${{ tx.amount }} {{ tx.currency }}
+                        {{ tx.type === 'ESCROW_RELEASE' ? '+' : tx.type === 'WITHDRAWAL' ? '-' : '' }}{{ tx.amount }} {{ tx.currency }}
                       </strong>
                     </td>
                     <td>
@@ -139,7 +166,7 @@ import { TransactionType } from '../../../core/models/wallet.model';
                 } @empty {
                   <tr>
                     <td colspan="6" class="text-center py-6 text-muted">
-                      No payout records found matching this filter.
+                      Aucune transaction ne correspond à ce filtre.
                     </td>
                   </tr>
                 }
@@ -156,17 +183,17 @@ import { TransactionType } from '../../../core/models/wallet.model';
         <div class="modal-card card-glass animate-scale-in" (click)="$event.stopPropagation()">
           <button class="close-btn" (click)="openWithdrawModal.set(false)">✕</button>
 
-          <h2>Request Bank Transfer Payout</h2>
-          <p class="modal-sub">Transfer your cleared earnings directly to your bank account or payment provider.</p>
+          <h2>Demande de virement bancaire</h2>
+          <p class="modal-sub">Transférez vos gains validés directement vers votre compte bancaire en Tunisie.</p>
 
           <form (ngSubmit)="confirmWithdrawal()" class="modal-form">
             <div class="available-box card">
-              <span class="lbl">Available to Withdraw:</span>
-              <strong class="val">\${{ wallet().availableBalance }} USD</strong>
+              <span class="lbl">Disponible pour retrait :</span>
+              <strong class="val">{{ wallet().availableBalance }} DT</strong>
             </div>
 
             <div class="form-group">
-              <label class="form-label">Withdrawal Amount ($ USD)</label>
+              <label class="form-label">Montant du Retrait (DT)</label>
               <input
                 type="number"
                 [(ngModel)]="withdrawAmount"
@@ -179,22 +206,25 @@ import { TransactionType } from '../../../core/models/wallet.model';
             </div>
 
             <div class="form-group">
-              <label class="form-label">Payout Method / Bank Account</label>
+              <label class="form-label">Moyen de Retrait / Compte Bancaire</label>
               <select [(ngModel)]="payoutMethod" name="method" class="form-select">
-                <option value="BANK_FR">BNP Paribas — IBAN: FR76 **** **** 4891</option>
-                <option value="BANK_TN">BIAT Tunisia — IBAN: TN59 **** **** 8920</option>
-                <option value="PAYONEER">Payoneer USD Account (sarah.j&#64;example.com)</option>
+                <option value="BANK_TN">BIAT Tunisie — RIB : TN59 **** **** 8920</option>
+                <option value="BANK_FR">Attijari Bank Tunisie — RIB : TN59 **** **** 4891</option>
+                <option value="PAYONEER">Virement Bancaire Direct (Dinar Tunisien)</option>
               </select>
             </div>
 
             <div class="payout-note">
-              <span>⚡ Standard processing time: <strong>1 to 2 business days</strong>. Zero transfer fees.</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px; color: var(--color-primary-400);">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+              <span>Délai de traitement : <strong>1 à 2 jours ouvrés</strong>. Zéro frais de virement.</span>
             </div>
 
             <div class="modal-actions">
-              <button type="button" (click)="openWithdrawModal.set(false)" class="btn btn-outline">Cancel</button>
+              <button type="button" (click)="openWithdrawModal.set(false)" class="btn btn-outline">Annuler</button>
               <button type="submit" class="btn btn-primary" [disabled]="withdrawAmount <= 0 || withdrawAmount > wallet().availableBalance">
-                Confirm Withdrawal of \${{ withdrawAmount }}
+                Confirmer le Retrait de {{ withdrawAmount }} DT
               </button>
             </div>
           </form>
@@ -493,9 +523,9 @@ export class EarningsComponent {
 
   getBadgeLabel(type: TransactionType): string {
     switch (type) {
-      case 'ESCROW_RELEASE': return '💰 Payout Released';
-      case 'ESCROW_HOLD': return '🔒 Incoming Escrow';
-      case 'WITHDRAWAL': return '🏦 Bank Transfer';
+      case 'ESCROW_RELEASE': return 'Paiement libéré';
+      case 'ESCROW_HOLD': return 'Séquestre entrant';
+      case 'WITHDRAWAL': return 'Virement bancaire';
       default: return type;
     }
   }
@@ -503,10 +533,10 @@ export class EarningsComponent {
   confirmWithdrawal(): void {
     const success = this.walletService.requestWithdrawal(this.withdrawAmount);
     if (success) {
-      alert(`Withdrawal request of $${this.withdrawAmount} submitted! Funds will arrive in your bank account in 1-2 business days.`);
+      alert(`Demande de virement de ${this.withdrawAmount} DT transmise avec succès ! Les fonds parviendront sur votre compte bancaire sous 1 à 2 jours ouvrés.`);
       this.openWithdrawModal.set(false);
     } else {
-      alert('Invalid withdrawal amount.');
+      alert('Montant de retrait invalide.');
     }
   }
 }

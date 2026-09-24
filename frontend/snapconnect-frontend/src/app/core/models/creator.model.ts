@@ -13,6 +13,9 @@ export interface Equipment {
   editingSoftware?: string[];
 }
 
+import { PortfolioItem } from './portfolio.model';
+export type { PortfolioItem };
+
 export interface CreatorProfile {
   id: string;
   userId: string;
@@ -33,6 +36,7 @@ export interface CreatorProfile {
   reviewsCount: number;
   completedProjectsCount: number;
   isVerified?: boolean;
+  verifiedCreator?: boolean;
   isActive?: boolean;
   equipment?: Equipment;
   portfolioCount?: number;

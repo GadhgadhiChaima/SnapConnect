@@ -1,8 +1,8 @@
-/* Contract domain model — unified for Model A (Job) and Model B (Service) */
+/* Contract domain model — unified for Jobs and Services */
 import { Milestone } from './milestone.model';
 
 export type ContractType   = 'JOB' | 'SERVICE';
-export type ContractStatus = 'PENDING' | 'ACTIVE' | 'DELIVERY' | 'REVISION' | 'COMPLETED' | 'CANCELLED' | 'DISPUTED';
+export type ContractStatus = 'PENDING' | 'ACTIVE' | 'DELIVERY' | 'REVISION' | 'COMPLETED' | 'CANCELLED' | 'DISPUTED' | 'EXPIRED';
 
 export interface DeliveryAttachment {
   url: string;
@@ -21,6 +21,17 @@ export interface Delivery {
   revisionNote?: string;
   submittedAt: string;
   resolvedAt?: string;
+}
+
+export interface ContractActivity {
+  id: number;
+  contractId: number;
+  actorId?: number;
+  actorName?: string;
+  actorRole?: 'CLIENT' | 'CREATOR' | 'ADMIN' | 'SYSTEM';
+  action: string;
+  description: string;
+  createdAt: string;
 }
 
 export interface Contract {
@@ -49,6 +60,10 @@ export interface Contract {
   creatorEarnings?: number;
   startDate?: string;
   deadline?: string;
+  deliverySubmittedAt?: string;
+  reviewDeadline?: string;
+  disputeReason?: string;
+  disputeDescription?: string;
   status: ContractStatus;
   milestones?: Milestone[];
   deliveries?: Delivery[];
@@ -64,3 +79,4 @@ export interface ContractListResponse {
   page: number;
   pageSize: number;
 }
+

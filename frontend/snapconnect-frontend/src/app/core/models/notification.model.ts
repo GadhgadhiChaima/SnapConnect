@@ -4,18 +4,25 @@ export type NotificationType =
   | 'PROPOSAL_ACCEPTED'
   | 'PROPOSAL_REJECTED'
   | 'NEW_MESSAGE'
+  | 'MESSAGE'
   | 'NEW_ORDER'
   | 'DELIVERY_SUBMITTED'
+  | 'DELIVERY'
   | 'REVISION_REQUESTED'
+  | 'REVISION'
   | 'CONTRACT_COMPLETED'
   | 'NEW_REVIEW'
+  | 'REVIEW'
   | 'PAYMENT'
+  | 'ESCROW'
+  | 'NEW_JOB'
   | 'CONTRACT_CANCELLED'
-  | 'SYSTEM';
+  | 'SYSTEM'
+  | string;
 
 export interface Notification {
-  id: string;
-  userId: string;
+  id: string | number;
+  userId: string | number;
   type: NotificationType;
   title: string;
   body: string;

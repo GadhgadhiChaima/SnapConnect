@@ -7,16 +7,16 @@ const API = 'http://localhost:8080/api/categories';
 
 /* Platform content categories */
 export const PLATFORM_CATEGORIES: Category[] = [
-  { id: 'reels-tiktok',    name: 'Reels & TikTok',      slug: 'reels-tiktok',    emoji: '🎬', isActive: true },
-  { id: 'product-photo',   name: 'Product Photography',  slug: 'product-photo',   emoji: '📦', isActive: true },
-  { id: 'real-estate',     name: 'Real Estate',          slug: 'real-estate',     emoji: '🏠', isActive: true },
-  { id: 'events',          name: 'Events & Moments',     slug: 'events',          emoji: '🎉', isActive: true },
-  { id: 'ugc',             name: 'UGC Content',          slug: 'ugc',             emoji: '🤝', isActive: true },
-  { id: 'food-resto',      name: 'Food & Restaurant',    slug: 'food-resto',      emoji: '🍽️', isActive: true },
-  { id: 'fashion',         name: 'Fashion & Lifestyle',  slug: 'fashion',         emoji: '👗', isActive: true },
-  { id: 'promo-video',     name: 'Promotional Video',    slug: 'promo-video',     emoji: '📢', isActive: true },
-  { id: 'social-media',    name: 'Social Media Packs',   slug: 'social-media',    emoji: '📱', isActive: true },
-  { id: 'other',           name: 'Other',                slug: 'other',           emoji: '✨', isActive: true },
+  { id: 'reels-tiktok',    name: 'Reels & TikTok',      slug: 'reels-tiktok',    emoji: '', isActive: true },
+  { id: 'product-photo',   name: 'Product Photography',  slug: 'product-photo',   emoji: '', isActive: true },
+  { id: 'real-estate',     name: 'Real Estate',          slug: 'real-estate',     emoji: '', isActive: true },
+  { id: 'events',          name: 'Events & Moments',     slug: 'events',          emoji: '', isActive: true },
+  { id: 'ugc',             name: 'UGC Content',          slug: 'ugc',             emoji: '', isActive: true },
+  { id: 'food-resto',      name: 'Food & Restaurant',    slug: 'food-resto',      emoji: '', isActive: true },
+  { id: 'fashion',         name: 'Fashion & Lifestyle',  slug: 'fashion',         emoji: '', isActive: true },
+  { id: 'promo-video',     name: 'Promotional Video',    slug: 'promo-video',     emoji: '', isActive: true },
+  { id: 'social-media',    name: 'Social Media Packs',   slug: 'social-media',    emoji: '', isActive: true },
+  { id: 'other',           name: 'Other',                slug: 'other',           emoji: '', isActive: true },
 ];
 
 @Injectable({ providedIn: 'root' })

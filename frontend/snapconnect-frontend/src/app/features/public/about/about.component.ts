@@ -13,40 +13,54 @@ import { FooterComponent } from '../../../shared/components/footer/footer.compon
     <main class="about-page">
       <div class="container-narrow">
         <div class="page-header text-center">
-          <span class="badge badge-primary">Our Mission</span>
-          <h1>About SnapConnect</h1>
-          <p>Democratizing professional photo and video content through mobile smartphone creators.</p>
+          <span class="badge badge-primary">Notre Mission</span>
+          <h1>À propos de SnapConnect</h1>
+          <p>Démocratiser la création de contenu photo et vidéo professionnel grâce aux créateurs sur smartphones.</p>
         </div>
 
         <div class="about-content card-glass">
-          <h2>The Smartphone Content Revolution</h2>
+          <h2>La Révolution du Contenu Smartphone</h2>
           <p>
-            Today's flagship smartphones (iPhone 16 Pro, Samsung S24 Ultra, Google Pixel 9 Pro) feature cinematic 4K 60fps recording, 10-bit ProRes Log color grading, and studio-grade computational photography.
+            Les smartphones d'aujourd'hui (iPhone 16 Pro Max, Samsung Galaxy S24 Ultra, Pixel 9 Pro) intègrent des capacités d'enregistrement 4K 60fps cinématiques, le profil couleur 10-bit ProRes Log et une photographie computationnelle de niveau studio.
           </p>
           <p>
-            Traditional video production agencies charge thousands of dollars for heavy camera crews and deliver slow turnarounds. Social media algorithms on TikTok, Instagram, and YouTube Shorts prioritize <strong>authentic, fast-paced vertical 9:16 content</strong> that resonates with modern audiences.
+            Les agences de production traditionnelles facturent des milliers de dinars pour des équipes lourdes avec des délais de livraison de plusieurs semaines. Les algorithmes actuels sur TikTok, Instagram et YouTube Shorts privilégient <strong>un contenu vertical 9:16 authentique, réactif et percutant</strong> qui engage réellement les communautés.
           </p>
 
-          <h3>Why We Built SnapConnect</h3>
+          <h3>Pourquoi SnapConnect ?</h3>
           <p>
-            SnapConnect was created to bridge small businesses, e-commerce stores, restaurants, and real estate professionals with skilled mobile creators who shoot exclusively on smartphones.
+            SnapConnect a été conçue pour connecter les entreprises, marques e-commerce, restaurants et agences avec les meilleurs créateurs mobiles indépendants équipés de smartphones haute performance.
           </p>
 
           <div class="pillars-grid">
             <div class="pillar card">
-              <span class="p-icon">⚡</span>
-              <h4>Speed</h4>
-              <p>Turnarounds in 24h to 48h to ride trending social media audio.</p>
+              <span class="p-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-primary-400);">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+              </span>
+              <h4>Rapidité</h4>
+              <p>Livrables en 24h à 48h pour surfer instantanément sur les tendances sociales.</p>
             </div>
             <div class="pillar card">
-              <span class="p-icon">💰</span>
-              <h4>Affordability</h4>
-              <p>Up to 70% cheaper than traditional video agency rates.</p>
+              <span class="p-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-primary-400);">
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+              </span>
+              <h4>Accessibilité</h4>
+              <p>Des tarifs transparents et compétitifs, sans frais d'intermédiaires superflus.</p>
             </div>
             <div class="pillar card">
-              <span class="p-icon">🔒</span>
-              <h4>Escrow Security</h4>
-              <p>Payments are protected and only released upon deliverable approval.</p>
+              <span class="p-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--color-primary-400);">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </span>
+              <h4>Séquestre Garanti</h4>
+              <p>Fonds sécurisés sur un compte séquestre et libérés uniquement après validation des fichiers 4K.</p>
             </div>
           </div>
         </div>

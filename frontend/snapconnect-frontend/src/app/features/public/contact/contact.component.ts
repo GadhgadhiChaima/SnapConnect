@@ -13,34 +13,34 @@ import { FooterComponent } from '../../../shared/components/footer/footer.compon
     <main class="contact-page">
       <div class="container-narrow">
         <div class="page-header text-center">
-          <span class="badge badge-accent">Get in Touch</span>
-          <h1>Contact SnapConnect Support</h1>
-          <p>Have questions about your project, contract, or creator application? We're here to help.</p>
+          <span class="badge badge-accent">Contact</span>
+          <h1>Contacter le Support SnapConnect</h1>
+          <p>Une question sur votre mission, contrat ou profil de créateur ? Notre équipe est à votre écoute.</p>
         </div>
 
         <form (ngSubmit)="send()" class="contact-card card-glass animate-scale-in">
           <div class="form-group">
-            <label class="form-label">Your Name</label>
-            <input type="text" [(ngModel)]="name" name="name" class="form-input" placeholder="Your name" required />
+            <label class="form-label">Votre nom</label>
+            <input type="text" [(ngModel)]="name" name="name" class="form-input" placeholder="Votre nom complet" required />
           </div>
 
           <div class="form-group">
-            <label class="form-label">Email Address</label>
-            <input type="email" [(ngModel)]="email" name="email" class="form-input" placeholder="you@example.com" required />
+            <label class="form-label">Adresse email</label>
+            <input type="email" [(ngModel)]="email" name="email" class="form-input" placeholder="votre.email@exemple.tn" required />
           </div>
 
           <div class="form-group">
-            <label class="form-label">Subject</label>
-            <input type="text" [(ngModel)]="subject" name="subj" class="form-input" placeholder="e.g. Question about mobile escrow / Account help" required />
+            <label class="form-label">Sujet</label>
+            <input type="text" [(ngModel)]="subject" name="subj" class="form-input" placeholder="ex. Question sur le séquestre / Assistance compte" required />
           </div>
 
           <div class="form-group">
             <label class="form-label">Message</label>
-            <textarea [(ngModel)]="message" name="msg" class="form-textarea" placeholder="How can we assist you today?" rows="5" required></textarea>
+            <textarea [(ngModel)]="message" name="msg" class="form-textarea" placeholder="Comment pouvons-nous vous aider ?" rows="5" required></textarea>
           </div>
 
           <button type="submit" class="btn btn-primary btn-block btn-lg">
-            Send Message ✉️
+            Envoyer le message
           </button>
         </form>
       </div>
@@ -90,7 +90,7 @@ export class ContactComponent {
 
   send(): void {
     if (!this.name || !this.email || !this.message) return;
-    alert('Thank you for contacting SnapConnect! Our support team will reply within 2 hours.');
+    alert("Merci de nous avoir contactés ! L'équipe support SnapConnect vous répondra dans les 2 heures.");
     this.name = '';
     this.email = '';
     this.subject = '';

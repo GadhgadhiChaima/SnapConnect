@@ -9,15 +9,20 @@ export type EscrowStep = 'PAYMENT' | 'ESCROW_HELD' | 'PRODUCTION' | 'REVIEW' | '
     <div class="escrow-stepper card-glass">
       <div class="stepper-header flex-between">
         <div class="header-title">
-          <span class="shield-icon">🔒</span>
+          <span class="shield-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </span>
           <div>
-            <h4>SnapConnect Escrow Protection</h4>
-            <span class="sub-text">Funds are locked safely until final deliverable approval</span>
+            <h4>Garantie Séquestre SnapConnect</h4>
+            <span class="sub-text">Les fonds sont protégés jusqu'à votre validation finale des livrables</span>
           </div>
         </div>
         <div class="escrow-amount-badge">
-          <span class="lbl">Secured Amount:</span>
-          <strong>\${{ amount() }} {{ currency() }}</strong>
+          <span class="lbl">Montant sécurisé :</span>
+          <strong>{{ amount() }} {{ currency() }}</strong>
         </div>
       </div>
 
@@ -27,8 +32,8 @@ export type EscrowStep = 'PAYMENT' | 'ESCROW_HELD' | 'PRODUCTION' | 'REVIEW' | '
         <div class="step-item" [class.active]="currentStep() === 'PAYMENT'" [class.completed]="isPast('PAYMENT')">
           <div class="step-circle">1</div>
           <div class="step-content">
-            <span class="step-name">Deposit</span>
-            <span class="step-status">{{ isPast('PAYMENT') ? 'Paid' : 'Pending' }}</span>
+            <span class="step-name">Dépôt</span>
+            <span class="step-status">{{ isPast('PAYMENT') ? 'Déposé' : 'En attente' }}</span>
           </div>
         </div>
 
@@ -38,8 +43,8 @@ export type EscrowStep = 'PAYMENT' | 'ESCROW_HELD' | 'PRODUCTION' | 'REVIEW' | '
         <div class="step-item" [class.active]="currentStep() === 'ESCROW_HELD'" [class.completed]="isPast('ESCROW_HELD')">
           <div class="step-circle">2</div>
           <div class="step-content">
-            <span class="step-name">Escrow Locked</span>
-            <span class="step-status">{{ isPast('ESCROW_HELD') || currentStep() === 'ESCROW_HELD' ? 'Protected 🔒' : 'Waiting' }}</span>
+            <span class="step-name">Séquestre Sécurisé</span>
+            <span class="step-status">{{ isPast('ESCROW_HELD') || currentStep() === 'ESCROW_HELD' ? 'Protégé' : 'En attente' }}</span>
           </div>
         </div>
 
@@ -49,8 +54,8 @@ export type EscrowStep = 'PAYMENT' | 'ESCROW_HELD' | 'PRODUCTION' | 'REVIEW' | '
         <div class="step-item" [class.active]="currentStep() === 'PRODUCTION'" [class.completed]="isPast('PRODUCTION')">
           <div class="step-circle">3</div>
           <div class="step-content">
-            <span class="step-name">4K Mobile Shoot</span>
-            <span class="step-status">{{ isPast('PRODUCTION') ? 'Delivered' : currentStep() === 'PRODUCTION' ? 'Filming 🎬' : 'Queued' }}</span>
+            <span class="step-name">Tournage Mobile 4K</span>
+            <span class="step-status">{{ isPast('PRODUCTION') ? 'Livré' : currentStep() === 'PRODUCTION' ? 'En tournage' : 'En attente' }}</span>
           </div>
         </div>
 
@@ -60,8 +65,8 @@ export type EscrowStep = 'PAYMENT' | 'ESCROW_HELD' | 'PRODUCTION' | 'REVIEW' | '
         <div class="step-item" [class.active]="currentStep() === 'REVIEW'" [class.completed]="isPast('REVIEW')">
           <div class="step-circle">4</div>
           <div class="step-content">
-            <span class="step-name">Client Review</span>
-            <span class="step-status">{{ isPast('REVIEW') ? 'Approved' : currentStep() === 'REVIEW' ? 'Inspection ⏳' : 'Waiting' }}</span>
+            <span class="step-name">Revue & Validation</span>
+            <span class="step-status">{{ isPast('REVIEW') ? 'Validé' : currentStep() === 'REVIEW' ? 'En inspection' : 'En attente' }}</span>
           </div>
         </div>
 
@@ -71,8 +76,8 @@ export type EscrowStep = 'PAYMENT' | 'ESCROW_HELD' | 'PRODUCTION' | 'REVIEW' | '
         <div class="step-item" [class.active]="currentStep() === 'RELEASED'" [class.completed]="currentStep() === 'RELEASED'">
           <div class="step-circle">5</div>
           <div class="step-content">
-            <span class="step-name">Funds Released</span>
-            <span class="step-status">{{ currentStep() === 'RELEASED' ? 'Paid Out 💰' : 'Locked' }}</span>
+            <span class="step-name">Paiement Libéré</span>
+            <span class="step-status">{{ currentStep() === 'RELEASED' ? 'Transféré' : 'Bloqué' }}</span>
           </div>
         </div>
       </div>
@@ -228,7 +233,7 @@ export type EscrowStep = 'PAYMENT' | 'ESCROW_HELD' | 'PRODUCTION' | 'REVIEW' | '
 })
 export class EscrowStepperComponent {
   amount = input<number>(250);
-  currency = input<string>('USD');
+  currency = input<string>('DT');
   currentStep = input<EscrowStep>('REVIEW');
 
   private stepOrder: EscrowStep[] = ['PAYMENT', 'ESCROW_HELD', 'PRODUCTION', 'REVIEW', 'RELEASED'];

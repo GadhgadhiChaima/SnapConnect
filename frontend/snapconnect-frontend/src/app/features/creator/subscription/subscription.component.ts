@@ -16,18 +16,18 @@ import { SubscriptionPlan } from '../../../core/models/subscription.model';
       <div class="container">
         <!-- Header -->
         <div class="page-header text-center">
-          <span class="badge badge-accent">Creator Monetization & Pro Passes</span>
-          <h1>Boost Your Mobile Studio Earnings</h1>
-          <p>Cut platform fees from 12% down to 5%, unlock unlimited client proposals, and get featured placement.</p>
+          <span class="badge badge-accent">Monétisation & Pass Pro Créateur</span>
+          <h1>Maximisez vos revenus de tournage mobile</h1>
+          <p>Réduisez les frais de plateforme de 12% à 5%, débloquez les propositions illimitées et obtenez une visibilité prioritaire.</p>
 
           <!-- Billing Cycle Toggle -->
           <div class="billing-toggle card">
-            <span [class.active]="!isYearly()" (click)="isYearly.set(false)">Monthly Billing</span>
+            <span [class.active]="!isYearly()" (click)="isYearly.set(false)">Facturation mensuelle</span>
             <button class="switch-pill" (click)="isYearly.set(!isYearly())" [class.on]="isYearly()">
               <span class="dot"></span>
             </button>
             <span [class.active]="isYearly()" (click)="isYearly.set(true)">
-              Annual Billing <span class="discount-tag">Save 20% 🎉</span>
+              Facturation annuelle <span class="discount-tag">-20% d'économie</span>
             </span>
           </div>
         </div>
@@ -37,8 +37,8 @@ import { SubscriptionPlan } from '../../../core/models/subscription.model';
           @for (plan of plans(); track plan.id) {
             <div
               class="plan-card card-glass animate-fade-in"
-              [class.popular]="plan.badgeLabel === 'POPULAR'"
-              [class.elite]="plan.badgeLabel === 'MAX EARNINGS'"
+              [class.popular]="plan.badgeLabel === 'POPULAIRE'"
+              [class.elite]="plan.badgeLabel === 'REVENUS MAX'"
             >
               @if (plan.badgeLabel) {
                 <span class="popular-ribbon">{{ plan.badgeLabel }}</span>
@@ -47,12 +47,11 @@ import { SubscriptionPlan } from '../../../core/models/subscription.model';
               <div class="plan-header">
                 <h3>{{ plan.title }}</h3>
                 <div class="plan-price">
-                  <span class="currency">$</span>
-                  <span class="amount">{{ getPrice(plan.priceMonthly) }}</span>
-                  <span class="period">/ month</span>
+                  <span class="amount">{{ getPrice(plan.priceMonthly) }} DT</span>
+                  <span class="period">/ mois</span>
                 </div>
                 <span class="fee-pill">
-                  ⚡ <strong>{{ plan.platformFeePercent }}%</strong> Platform Take Rate
+                  Commission plateforme : <strong>{{ plan.platformFeePercent }}%</strong>
                 </span>
               </div>
 
@@ -68,7 +67,7 @@ import { SubscriptionPlan } from '../../../core/models/subscription.model';
               <div class="plan-cta">
                 @if (subService.currentSubscription().planCode === plan.code) {
                   <button class="btn btn-outline btn-block current-btn" disabled>
-                    ✓ Current Plan (Active)
+                    ✓ Formule actuelle (Active)
                   </button>
                 } @else {
                   <button
@@ -78,7 +77,7 @@ import { SubscriptionPlan } from '../../../core/models/subscription.model';
                     [class.btn-success]="plan.code === 'PREMIUM'"
                     [class.btn-outline]="plan.code === 'FREE'"
                   >
-                    {{ plan.code === 'FREE' ? 'Downgrade to Free' : 'Upgrade to ' + plan.title }}
+                    {{ plan.code === 'FREE' ? 'Passer au forfait Gratuit' : 'Passer à ' + plan.title }}
                   </button>
                 }
               </div>
@@ -294,9 +293,10 @@ export class CreatorSubscriptionComponent {
   }
 
   choosePlan(plan: SubscriptionPlan): void {
-    if (confirm(`Upgrade to ${plan.title} for $${this.isYearly() ? plan.priceMonthly * 0.8 * 12 : plan.priceMonthly}?`)) {
+    const price = this.isYearly() ? Math.round(plan.priceMonthly * 0.8 * 12) : plan.priceMonthly;
+    if (confirm(`Passer au forfait ${plan.title} pour ${price} DT ?`)) {
       this.subService.upgradePlan(plan.id, plan.code);
-      alert(`Success! You are now subscribed to ${plan.title}. Your take rate is now ${plan.platformFeePercent}%.`);
+      alert(`Félicitations ! Vous bénéficiez désormais du forfait ${plan.title}. Votre commission est désormais de ${plan.platformFeePercent}%.`);
     }
   }
 }

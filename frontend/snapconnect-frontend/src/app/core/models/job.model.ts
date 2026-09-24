@@ -1,6 +1,7 @@
-/* Job domain model — Model A */
+/* Job domain model — SnapConnect Job Briefs */
 export type BudgetType   = 'FIXED' | 'HOURLY';
-export type JobStatus    = 'DRAFT' | 'OPEN' | 'IN_PROGRESS' | 'DELIVERY_REVIEW' | 'COMPLETED' | 'CANCELLED' | 'DISPUTED';
+export type JobStatus    = 'DRAFT' | 'OPEN' | 'IN_PROGRESS' | 'DELIVERY_REVIEW' | 'COMPLETED' | 'CANCELLED' | 'DISPUTED' | 'CLOSED';
+export type JobCategory  = string;
 
 export interface Job {
   id: string;
@@ -10,6 +11,7 @@ export interface Job {
   clientRating?: number;
   categoryId?: string;
   categoryName?: string;
+  category?: string;
   title: string;
   description: string;
   budgetType: BudgetType;
@@ -32,6 +34,7 @@ export interface Job {
 
 export interface JobCreateRequest {
   categoryId?: string;
+  category?: string;
   title: string;
   description: string;
   budgetType: BudgetType;
@@ -39,8 +42,8 @@ export interface JobCreateRequest {
   budgetMax?: number;
   budgetAmount?: number;
   deadline?: string;
-  location: string;
-  isRemote: boolean;
+  location?: string;
+  isRemote?: boolean;
   requiredGear?: string;
   requiredSkills?: string[];
   deliverables?: string[];

@@ -14,37 +14,36 @@ import { FooterComponent } from '../../../shared/components/footer/footer.compon
       <div class="container-narrow">
         <div class="page-header text-center">
           <span class="badge badge-primary">Support & FAQ</span>
-          <h1>Help Center</h1>
-          <p>Everything you need to know about hiring mobile creators and selling smartphone content.</p>
+          <h1>Centre d'Aide & FAQ</h1>
+          <p>Tout ce que vous devez savoir pour collaborer avec des créateurs mobiles et commander du contenu smartphone.</p>
         </div>
 
         <div class="faq-list">
           <div class="faq-card card-glass">
-            <h3>How does Escrow Protection work?</h3>
+            <h3>Comment fonctionne la Protection Séquestre ?</h3>
             <p>
-              When a client accepts a proposal or orders a package, the payment is deposited into SnapConnect's secure escrow. The creator films, edits, and uploads the deliverables. The client reviews the files and only when the client approves the work is the payout released to the creator.
+              Lorsqu'un client accepte une proposition, les fonds sont bloqués sur le compte séquestre sécurisé de SnapConnect. Le créateur tourne, monte et dépose ses livrables 4K. Le client inspecte les fichiers et les fonds ne sont versés au créateur qu'après son approbation explicite.
             </p>
           </div>
 
           <div class="faq-card card-glass">
-            <h3>What hardware qualifies as a "Mobile Creator"?</h3>
+            <h3>Quel matériel est requis pour être Créateur Mobile ?</h3>
             <p>
-              Creators must shoot on modern flagship smartphones capable of at least 4K 30/60fps (e.g., iPhone 13 Pro or newer, Samsung Galaxy S22 Ultra or newer, Google Pixel 7 Pro or newer). We encourage accessories like mobile gimbals (DJI OM series) and wireless microphones.
+              Les créateurs doivent obligatoirement tourner avec des smartphones récents capables d'enregistrer au minimum en 4K 30/60fps (iPhone 13 Pro ou supérieur, Samsung Galaxy S22 Ultra ou supérieur, Google Pixel 7 Pro ou supérieur). L'usage de stabilisateurs mobiles (gimbals DJI OM) et micros sans fil est vivement recommandé.
             </p>
           </div>
 
           <div class="faq-card card-glass">
-            <h3>How are revisions handled?</h3>
+            <h3>Comment se déroulent les révisions ?</h3>
             <p>
-              Each job or package specifies an agreed number of revisions (typically 2-3). Clients can submit timestamped feedback directly within the contract workspace.
+              Chaque mission inclut un nombre défini de révisions (généralement 2 à 3). Les clients peuvent annoter les vidéos et soumettre leurs remarques directement dans l'espace de contrat.
             </p>
           </div>
 
           <div class="faq-card card-glass">
-            <h3>What is the difference between Model A and Model B?</h3>
+            <h3>Comment fonctionne la marketplace SnapConnect ?</h3>
             <p>
-              <strong>Model A (Jobs):</strong> The client posts a custom brief and creators bid with custom proposals.<br/>
-              <strong>Model B (Services):</strong> Creators post predefined gig packages with fixed pricing and turnaround, and clients can order directly.
+              SnapConnect fonctionne sur un modèle direct, fluide et 100% sécurisé : le client publie son besoin ou consulte les profils vérifiés, sélectionne un créateur smartphone certifié, bloque le budget en séquestre sécurisé, et libère le paiement uniquement après validation des fichiers vidéos et photos 4K livrés.
             </p>
           </div>
         </div>

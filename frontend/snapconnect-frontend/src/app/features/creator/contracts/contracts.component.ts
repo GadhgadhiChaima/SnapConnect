@@ -17,12 +17,15 @@ import { Contract } from '../../../core/models/contract.model';
         <!-- Header -->
         <div class="page-header flex-between">
           <div>
-            <span class="badge badge-success">Creator Studio</span>
-            <h1>My Active Shoots & Contracts</h1>
-            <p>Shoots in progress, pending deliverable reviews, and released earnings.</p>
+            <span class="badge badge-success">Studio Créateur</span>
+            <h1>Mes tournages & Contrats actifs</h1>
+            <p>Tournages en cours, revue des livrables et gains libérés.</p>
           </div>
           <a routerLink="/creator/earnings" class="btn btn-outline btn-md">
-            💰 View Earnings & Payouts
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: -2px; margin-right: 6px;">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+            </svg>
+            Voir mes revenus & portefeuille
           </a>
         </div>
 
@@ -32,29 +35,29 @@ import { Contract } from '../../../core/models/contract.model';
             <div class="contract-card card-glass animate-fade-in">
               <div class="card-top flex-between">
                 <div class="type-badge-group">
-                  <span class="badge badge-primary">{{ c.type === 'JOB' ? 'Model A (Job Brief)' : 'Model B (Service Package)' }}</span>
-                  <span class="badge" [class]="getStatusClass(c.status)">● {{ c.status }}</span>
+                  <span class="badge badge-primary">{{ c.type === 'JOB' ? 'Brief Sur Mesure' : 'Package Service' }}</span>
+                  <span class="badge" [class]="getStatusClass(c.status)">● {{ getStatusLabel(c.status) }}</span>
                 </div>
                 <div class="payout-badge">
-                  <span class="lbl">Net Payout:</span>
-                  <strong>\${{ c.amount * 0.9 }} USD</strong>
+                  <span class="lbl">Paiement net :</span>
+                  <strong>{{ c.amount * 0.9 }} DT</strong>
                 </div>
               </div>
 
               <h3 class="contract-title">{{ c.title }}</h3>
 
               <div class="parties-strip">
-                <span>Client: <strong>{{ c.clientName }}</strong></span>
+                <span>Client : <strong>{{ c.clientName }}</strong></span>
                 <span class="dot">•</span>
-                <span>Deadline: <strong>{{ c.deadline }}</strong></span>
+                <span>Date limite : <strong>{{ c.deadline }}</strong></span>
                 <span class="dot">•</span>
-                <span>Escrow State: <strong class="text-success">Funded 🔒</strong></span>
+                <span>Séquestre : <strong class="text-success">Séquestre Garanti</strong></span>
               </div>
 
               <div class="card-footer flex-between">
-                <span class="contract-id">ID: #{{ c.id }} • Created {{ c.createdAt | slice:0:10 }}</span>
+                <span class="contract-id">ID : #{{ c.id }} • Créé le {{ c.createdAt | slice:0:10 }}</span>
                 <a [routerLink]="['/creator/contracts', c.id]" class="btn btn-primary btn-sm">
-                  Upload Deliverables & Chat 📤 →
+                  Déposer les livrables & Discussion →
                 </a>
               </div>
             </div>
@@ -168,10 +171,10 @@ export class CreatorContractsComponent {
       id: 'ct-1',
       type: 'JOB',
       clientId: 'cl-1',
-      clientName: 'Bloom Cosmetics',
+      clientName: 'Maison Alyssa Cosmétiques Bio',
       creatorId: 'cr-1',
-      creatorName: 'Sarah Jenkins',
-      title: '5 Aesthetic Unboxing Reels for Skincare Brand',
+      creatorName: 'Sarah Ben Salem',
+      title: '5 Reels Unboxing Esthétiques Soins Bio',
       amount: 250,
       status: 'DELIVERY',
       deadline: '2026-08-16',
@@ -185,6 +188,17 @@ export class CreatorContractsComponent {
       case 'ACTIVE': return 'badge-primary';
       case 'DELIVERY': return 'badge-accent';
       default: return 'badge-neutral';
+    }
+  }
+
+  getStatusLabel(status: string): string {
+    switch (status) {
+      case 'COMPLETED': return 'Terminé';
+      case 'ACTIVE': return 'En tournage';
+      case 'DELIVERY': return 'Livrables déposés';
+      case 'REVISION': return 'En révision';
+      case 'DISPUTED': return 'En litige';
+      default: return status;
     }
   }
 }

@@ -12,19 +12,22 @@ import { RatingStarsComponent } from '../../../shared/components/rating-stars/ra
   template: `
     <div class="creator-list-page">
       <div class="page-header">
-        <h1>Discover <span class="gradient-title">Verified Mobile Creators</span></h1>
-        <p>Hire skilled mobile photographers & videographers with top smartphone camera gear.</p>
+        <h1>Trouvez des <span class="gradient-title">Créateurs Smartphone Certifiés</span></h1>
+        <p>Recrutez des vidéastes et photographes mobiles équipés des meilleurs smartphones 4K.</p>
       </div>
 
       <!-- SEARCH & GEAR FILTER BAR -->
       <div class="filter-card card-glass">
         <div class="search-box">
-          <span class="search-icon">🔍</span>
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
           <input
             type="text"
             [(ngModel)]="searchQuery"
             (ngModelChange)="searchQuerySignal.set($event)"
-            placeholder="Search by creator name, gear (e.g. iPhone 15 Pro, S24 Ultra, Osmo), or location..."
+            placeholder="Rechercher par nom, équipement (ex. iPhone 16 Pro, S24 Ultra, Osmo) ou ville..."
             class="input-field search-input" />
         </div>
 
@@ -33,25 +36,25 @@ import { RatingStarsComponent } from '../../../shared/components/rating-stars/ra
             class="pill"
             [class.active]="gearFilter() === 'ALL'"
             (click)="gearFilter.set('ALL')">
-            All Devices
+            Tous les smartphones
           </button>
           <button
             class="pill"
             [class.active]="gearFilter() === 'IPHONE'"
             (click)="gearFilter.set('IPHONE')">
-            📱 iPhone Flagship
+            iPhone Flagship
           </button>
           <button
             class="pill"
             [class.active]="gearFilter() === 'SAMSUNG'"
             (click)="gearFilter.set('SAMSUNG')">
-            📱 Samsung Ultra
+            Samsung Ultra
           </button>
           <button
             class="pill"
             [class.active]="gearFilter() === 'VERIFIED'"
             (click)="gearFilter.set('VERIFIED')">
-            ✓ Verified Only
+            Certifiés uniquement
           </button>
         </div>
       </div>
@@ -64,7 +67,11 @@ import { RatingStarsComponent } from '../../../shared/components/rating-stars/ra
             <div class="header-info">
               <h3>
                 {{ creator.fullName }}
-                <span class="verified" *ngIf="creator.verifiedCreator" title="Verified Mobile Gear">✓</span>
+                <span class="verified" *ngIf="creator.verifiedCreator" title="Matériel mobile vérifié">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </span>
               </h3>
               <p class="title">{{ creator.title }}</p>
               <app-rating-stars [rating]="creator.rating" [reviewsCount]="creator.reviewsCount"></app-rating-stars>
@@ -73,11 +80,11 @@ import { RatingStarsComponent } from '../../../shared/components/rating-stars/ra
 
           <div class="gear-spec-box">
             <div class="gear-item">
-              <span class="lbl">Primary Phone:</span>
+              <span class="lbl">Smartphone principal :</span>
               <strong class="val">{{ creator.equipment.smartphoneModel }}</strong>
             </div>
             <div class="gear-item" *ngIf="creator.equipment.gimbal">
-              <span class="lbl">Stabilizer:</span>
+              <span class="lbl">Stabilisateur :</span>
               <span class="val">{{ creator.equipment.gimbal }}</span>
             </div>
           </div>
@@ -90,11 +97,11 @@ import { RatingStarsComponent } from '../../../shared/components/rating-stars/ra
 
           <div class="card-footer">
             <div class="rate">
-              <span class="price">\${{ creator.hourlyRate }}</span>
-              <span class="unit">/ hr</span>
+              <span class="price">{{ creator.hourlyRate }} DT</span>
+              <span class="unit">/ h</span>
             </div>
             <a [routerLink]="['/creators', creator.id]" class="btn btn-sm btn-primary">
-              View Gear & Portfolio
+              Voir le profil & Portfolio
             </a>
           </div>
         </div>
@@ -265,18 +272,18 @@ export class CreatorListComponent {
     let list = this.creatorService.creators();
 
     if (filter === 'IPHONE') {
-      list = list.filter(c => c.equipment.smartphoneModel.toLowerCase().includes('iphone'));
+      list = list.filter(c => c.equipment?.smartphoneModel?.toLowerCase().includes('iphone'));
     } else if (filter === 'SAMSUNG') {
-      list = list.filter(c => c.equipment.smartphoneModel.toLowerCase().includes('samsung'));
+      list = list.filter(c => c.equipment?.smartphoneModel?.toLowerCase().includes('samsung'));
     } else if (filter === 'VERIFIED') {
-      list = list.filter(c => c.verifiedCreator);
+      list = list.filter(c => c.verifiedCreator || c.isVerified);
     }
 
     if (query) {
       list = list.filter(c =>
         c.fullName.toLowerCase().includes(query) ||
         c.title.toLowerCase().includes(query) ||
-        c.equipment.smartphoneModel.toLowerCase().includes(query) ||
+        (c.equipment?.smartphoneModel?.toLowerCase().includes(query) ?? false) ||
         c.location.toLowerCase().includes(query)
       );
     }

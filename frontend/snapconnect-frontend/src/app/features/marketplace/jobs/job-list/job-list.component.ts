@@ -5,7 +5,9 @@ import { NavbarComponent } from '../../../../shared/components/navbar/navbar.com
 import { FooterComponent } from '../../../../shared/components/footer/footer.component';
 import { JobCardComponent } from '../../../../shared/components/job-card/job-card.component';
 import { PLATFORM_CATEGORIES } from '../../../../core/services/category.service';
+import { JobService } from '../../../../core/services/job.service';
 import { Job } from '../../../../core/models/job.model';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-job-list',
@@ -19,53 +21,61 @@ import { Job } from '../../../../core/models/job.model';
         <!-- Page Header -->
         <div class="page-header flex-between">
           <div>
-            <span class="badge badge-gold">Model A — Client Job Briefs</span>
-            <h1>Mobile Shoots & Content Job Board</h1>
-            <p>Apply to open client jobs with your mobile phone gear specifications.</p>
+            <span class="badge badge-gold">Missions & Briefs Clients</span>
+            <h1>Missions & Tournages Mobiles</h1>
+            <p>Postulez aux briefs ouverts avec les spécifications de votre équipement smartphone.</p>
           </div>
-          <a routerLink="/client/jobs/create" class="btn btn-primary btn-md">
-            + Post a Mobile Job
-          </a>
+          @if (!auth.isCreator()) {
+            <a routerLink="/client/jobs/create" class="btn btn-primary btn-md">
+              + Publier une mission
+            </a>
+          }
         </div>
 
         <!-- Search & Filter Bar -->
         <div class="search-filter-card card-glass">
           <div class="search-inputs">
             <div class="search-input-wrap">
-              <span class="icon">🔍</span>
+              <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
               <input
                 type="text"
                 [(ngModel)]="searchQuery"
                 (ngModelChange)="applyFilters()"
-                placeholder="Search job title, requirements, skills (e.g. restaurant, gym, product)..."
+                placeholder="Rechercher par titre, compétences, équipement (ex. restaurant, mode, produit)..."
                 class="form-input"
               />
             </div>
 
             <div class="filter-select-wrap">
               <select [(ngModel)]="selectedCategory" (ngModelChange)="applyFilters()" class="form-select">
-                <option value="">All Categories</option>
+                <option value="">Toutes les catégories</option>
                 @for (cat of categories; track cat.id) {
-                  <option [value]="cat.name">{{ cat.emoji }} {{ cat.name }}</option>
+                  <option [value]="cat.name">{{ cat.name }}</option>
                 }
               </select>
             </div>
 
             <div class="filter-select-wrap">
               <select [(ngModel)]="selectedBudgetType" (ngModelChange)="applyFilters()" class="form-select">
-                <option value="">Any Budget Type</option>
-                <option value="FIXED">Fixed Price</option>
-                <option value="HOURLY">Hourly Rate</option>
+                <option value="">Tous les types de budget</option>
+                <option value="FIXED">Prix fixe</option>
+                <option value="HOURLY">Taux horaire</option>
               </select>
             </div>
 
             <div class="filter-select-wrap">
               <select [(ngModel)]="selectedLocation" (ngModelChange)="applyFilters()" class="form-select">
-                <option value="">All Locations</option>
-                <option value="remote">Remote / Online Only</option>
-                <option value="Paris">Paris</option>
-                <option value="Lyon">Lyon</option>
-                <option value="Marseille">Marseille</option>
+                <option value="">Toutes les villes</option>
+                <option value="remote">À distance / En ligne</option>
+                <option value="Tunis">Tunis</option>
+                <option value="Sousse">Sousse</option>
+                <option value="Sfax">Sfax</option>
+                <option value="Hammamet">Hammamet</option>
+                <option value="Djerba">Djerba</option>
+                <option value="Bizerte">Bizerte</option>
               </select>
             </div>
           </div>
@@ -74,7 +84,7 @@ import { Job } from '../../../../core/models/job.model';
         <!-- Results Counter & Status -->
         <div class="results-header">
           <p class="results-count">
-            Showing <strong>{{ filteredJobs().length }}</strong> open mobile briefs
+            <strong>{{ filteredJobs().length }}</strong> briefs mobiles disponibles
           </p>
         </div>
 
@@ -87,10 +97,15 @@ import { Job } from '../../../../core/models/job.model';
           </div>
         } @else {
           <div class="empty-state card-glass">
-            <div class="empty-icon">💼</div>
-            <h3>No open briefs match your search</h3>
-            <p>Try clearing filters or check back later for new client postings.</p>
-            <button (click)="resetFilters()" class="btn btn-outline btn-sm">Reset Filters</button>
+            <div class="empty-icon">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+            </div>
+            <h3>Aucune mission ne correspond à votre recherche</h3>
+            <p>Essayez de réinitialiser vos filtres ou revenez plus tard pour de nouveaux briefs.</p>
+            <button (click)="resetFilters()" class="btn btn-outline btn-sm">Réinitialiser les filtres</button>
           </div>
         }
       </div>
@@ -141,14 +156,20 @@ import { Job } from '../../../../core/models/job.model';
       align-items: center;
     }
 
-    .search-input-wrap .icon {
+    .search-input-wrap .search-icon {
       position: absolute;
       left: var(--space-3);
-      opacity: 0.6;
+      color: var(--color-text-muted);
+      pointer-events: none;
     }
 
     .search-input-wrap .form-input {
-      padding-left: 2.4rem;
+      padding-left: 2.6rem;
+    }
+
+    .empty-state .empty-icon {
+      color: var(--color-primary-400);
+      margin-bottom: var(--space-3);
     }
 
     .results-header {
@@ -185,6 +206,8 @@ import { Job } from '../../../../core/models/job.model';
 })
 export class JobListComponent implements OnInit {
   private route = inject(ActivatedRoute);
+  private jobService = inject(JobService);
+  readonly auth = inject(AuthService);
 
   searchQuery = '';
   selectedCategory = '';
@@ -193,85 +216,10 @@ export class JobListComponent implements OnInit {
 
   categories = PLATFORM_CATEGORIES;
 
-  allJobs: Job[] = [
-    {
-      id: 'jb-1',
-      clientId: 'cl-1',
-      clientName: 'Bloom Cosmetics',
-      clientRating: 4.9,
-      categoryName: 'Product Photography',
-      title: 'Need 10 Aesthetic Product Photos & 3 Unboxing Reels (iPhone 15/16)',
-      description: 'Looking for a female mobile creator to shoot aesthetic unboxing and texture application shots for our new skincare line.',
-      budgetType: 'FIXED',
-      budgetAmount: 250,
-      location: 'Remote (Products shipped to you)',
-      isRemote: true,
-      requiredGear: 'iPhone 15/16 Pro with Ring Light',
-      requiredSkills: ['Skincare UGC', 'Unboxing', 'Aesthetic Lighting'],
-      proposalsCount: 7,
-      status: 'OPEN',
-      postedDate: new Date().toISOString()
-    },
-    {
-      id: 'jb-2',
-      clientId: 'cl-2',
-      clientName: 'Le Bistro Gourmet',
-      clientRating: 5.0,
-      categoryName: 'Food & Restaurant',
-      title: 'Evening Dinner Service & Chef Prep Mobile Videographer',
-      description: 'Need a creator on-site for 2 hours on Friday evening to capture sizzling dishes, cocktail pours, and ambient restaurant vibes.',
-      budgetType: 'HOURLY',
-      budgetMin: 40,
-      budgetMax: 65,
-      location: 'Paris (11e Arrondissement)',
-      isRemote: false,
-      requiredGear: 'Gimbal + Smartphone 4K 60fps',
-      requiredSkills: ['Food Videography', 'Low Light Mobile', 'Speed Ramping'],
-      proposalsCount: 4,
-      status: 'OPEN',
-      postedDate: new Date().toISOString()
-    },
-    {
-      id: 'jb-3',
-      clientId: 'cl-3',
-      clientName: 'Urban Sneaker Vault',
-      clientRating: 4.8,
-      categoryName: 'Reels & TikTok',
-      title: 'Streetwear Sneaker Drop Content — 5 Quick Hit TikToks',
-      description: 'Looking for a mobile shooter with sneaker culture knowledge to create dynamic on-foot reels and transition videos.',
-      budgetType: 'FIXED',
-      budgetAmount: 300,
-      location: 'Lyon, France',
-      isRemote: false,
-      requiredGear: 'iPhone / Galaxy Ultra with Wide Angle',
-      requiredSkills: ['Sneaker Transitions', 'Fast Motion', 'Trending Audio'],
-      proposalsCount: 9,
-      status: 'OPEN',
-      postedDate: new Date().toISOString()
-    },
-    {
-      id: 'jb-4',
-      clientId: 'cl-4',
-      clientName: 'FitPulse Gym & Wellness',
-      clientRating: 4.95,
-      categoryName: 'Fashion & Lifestyle',
-      title: 'Crossfit Gym Workout Highlights — Mobile Dynamic Reels',
-      description: 'Capture high-intensity athletes training, equipment showcases, and trainer tips. Fast turnaround for daily IG stories.',
-      budgetType: 'FIXED',
-      budgetAmount: 180,
-      location: 'Marseille, France',
-      isRemote: false,
-      requiredGear: 'Smartphone with Action Mode / Gimbal',
-      requiredSkills: ['Fitness Content', 'Action Tracking', 'Audio Sync'],
-      proposalsCount: 5,
-      status: 'OPEN',
-      postedDate: new Date().toISOString()
-    }
-  ];
-
-  filteredJobs = signal<Job[]>(this.allJobs);
+  filteredJobs = signal<Job[]>(this.jobService.jobs());
 
   ngOnInit(): void {
+    this.jobService.refresh();
     this.route.queryParams.subscribe(params => {
       if (params['query']) this.searchQuery = params['query'];
       if (params['categoryId']) {
@@ -283,22 +231,22 @@ export class JobListComponent implements OnInit {
   }
 
   applyFilters(): void {
-    let list = [...this.allJobs];
+    let list = [...this.jobService.jobs()];
 
     if (this.searchQuery.trim()) {
       const q = this.searchQuery.toLowerCase();
       list = list.filter(j =>
         j.title.toLowerCase().includes(q) ||
         j.description.toLowerCase().includes(q) ||
-        j.clientName.toLowerCase().includes(q) ||
-        j.categoryName?.toLowerCase().includes(q) ||
-        j.requiredGear?.toLowerCase().includes(q) ||
-        j.requiredSkills?.some(s => s.toLowerCase().includes(q))
+        (j.clientName && j.clientName.toLowerCase().includes(q)) ||
+        (j.categoryName && j.categoryName.toLowerCase().includes(q)) ||
+        (j.requiredGear && j.requiredGear.toLowerCase().includes(q)) ||
+        (j.requiredSkills && j.requiredSkills.some(s => s.toLowerCase().includes(q)))
       );
     }
 
     if (this.selectedCategory) {
-      list = list.filter(j => j.categoryName === this.selectedCategory);
+      list = list.filter(j => j.categoryName === this.selectedCategory || j.categoryId === this.selectedCategory);
     }
 
     if (this.selectedBudgetType) {

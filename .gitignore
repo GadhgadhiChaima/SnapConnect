@@ -35,3 +35,7 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+backend/**/src/main/resources/application.properties
+backend/**/logs/
+scratch/
+backend/**/uploads/

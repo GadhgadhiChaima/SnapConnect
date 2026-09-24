@@ -10,59 +10,59 @@ export class SubscriptionService {
       id: 'plan-cr-free',
       targetRole: 'CREATOR',
       code: 'FREE',
-      title: 'Starter Creator',
+      title: 'Créateur Débutant',
       priceMonthly: 0,
-      currency: 'USD',
+      currency: 'DT',
       platformFeePercent: 12,
       proposalsMonthlyLimit: 10,
       featuredPlacement: false,
       features: [
-        { text: '10 custom brief proposals per month', included: true },
-        { text: 'Standard mobile portfolio (up to 6 items)', included: true },
-        { text: '12% platform transaction fee', included: true },
-        { text: 'Standard search ranking', included: true },
-        { text: 'Verified Pro Creator badge', included: false },
-        { text: 'Homepage featured showcase', included: false }
+        { text: '10 propositions de briefs par mois', included: true },
+        { text: 'Portfolio mobile standard (jusqu\'à 6 réalisations)', included: true },
+        { text: 'Frais de plateforme de 12%', included: true },
+        { text: 'Visibilité standard dans les recherches', included: true },
+        { text: 'Badge Vérifié Pro Créateur', included: false },
+        { text: 'Mise en avant sur la page d\'accueil', included: false }
       ]
     },
     {
       id: 'plan-cr-pro',
       targetRole: 'CREATOR',
       code: 'PRO',
-      title: 'Pro Creator',
-      badgeLabel: 'POPULAR',
+      title: 'Créateur Pro',
+      badgeLabel: 'POPULAIRE',
       priceMonthly: 29,
-      currency: 'USD',
+      currency: 'DT',
       platformFeePercent: 8,
       proposalsMonthlyLimit: 40,
       featuredPlacement: false,
       features: [
-        { text: '40 custom brief proposals per month', included: true, highlight: true },
-        { text: 'Unlimited mobile portfolio showcase (4K)', included: true },
-        { text: 'Reduced 8% platform fee (save 33%)', included: true, highlight: true },
-        { text: 'Pro Creator verified profile badge', included: true },
-        { text: '2x Visibility Boost in creator search', included: true },
-        { text: 'Homepage featured showcase', included: false }
+        { text: '40 propositions de briefs par mois', included: true, highlight: true },
+        { text: 'Portfolio mobile 4K illimité', included: true },
+        { text: 'Frais réduits à 8% (économisez 33%)', included: true, highlight: true },
+        { text: 'Badge vérifié Pro Créateur sur le profil', included: true },
+        { text: 'Boost de visibilité x2 dans la recherche', included: true },
+        { text: 'Mise en avant sur la page d\'accueil', included: false }
       ]
     },
     {
       id: 'plan-cr-prem',
       targetRole: 'CREATOR',
       code: 'PREMIUM',
-      title: 'Elite Creator Studio',
-      badgeLabel: 'MAX EARNINGS',
+      title: 'Studio Créateur Élite',
+      badgeLabel: 'REVENUS MAX',
       priceMonthly: 69,
-      currency: 'USD',
+      currency: 'DT',
       platformFeePercent: 5,
       proposalsMonthlyLimit: -1,
       featuredPlacement: true,
       features: [
-        { text: 'Unlimited custom brief proposals', included: true, highlight: true },
-        { text: 'Lowest 5% platform fee (keep 95% of earnings)', included: true, highlight: true },
-        { text: 'Featured Placement on SnapConnect Homepage', included: true, highlight: true },
-        { text: 'Elite Gold Badge on profile & cards', included: true },
-        { text: 'Priority 24/7 dedicated support & mediation', included: true },
-        { text: 'Early access to high-budget enterprise briefs', included: true }
+        { text: 'Propositions de briefs illimitées', included: true, highlight: true },
+        { text: 'Frais minimum de 5% (conservez 95% de vos revenus)', included: true, highlight: true },
+        { text: 'Mise en avant sur la page d\'accueil SnapConnect', included: true, highlight: true },
+        { text: 'Badge Élite Or sur votre profil et vos cartes', included: true },
+        { text: 'Support dédié prioritaire & médiation 24/7', included: true },
+        { text: 'Accès prioritaire aux briefs entreprises haut budget', included: true }
       ]
     }
   ]);
@@ -72,34 +72,34 @@ export class SubscriptionService {
       id: 'plan-cl-free',
       targetRole: 'CLIENT',
       code: 'FREE',
-      title: 'Standard Client',
+      title: 'Client Standard',
       priceMonthly: 0,
-      currency: 'USD',
+      currency: 'DT',
       platformFeePercent: 0,
       featuredPlacement: false,
       features: [
-        { text: 'Up to 3 active mobile briefs at once', included: true },
-        { text: 'Standard creator marketplace search', included: true },
-        { text: '100% Escrow buyer protection', included: true },
-        { text: 'Multi-user team workspace', included: false }
+        { text: 'Jusqu\'à 3 briefs mobiles actifs en simultané', included: true },
+        { text: 'Recherche standard dans le catalogue de créateurs', included: true },
+        { text: 'Protection acheteur 100% avec séquestre', included: true },
+        { text: 'Espace d\'équipe multi-utilisateurs', included: false }
       ]
     },
     {
       id: 'plan-cl-biz',
       targetRole: 'CLIENT',
       code: 'BUSINESS',
-      title: 'Business Growth',
-      badgeLabel: 'FOR BRANDS',
+      title: 'Croissance Entreprise',
+      badgeLabel: 'POUR MARQUES',
       priceMonthly: 49,
-      currency: 'USD',
+      currency: 'DT',
       platformFeePercent: 0,
       featuredPlacement: false,
       features: [
-        { text: 'Unlimited active mobile briefs', included: true, highlight: true },
-        { text: 'Advanced filters (specific smartphone models & gimbals)', included: true },
-        { text: 'Priority brief placement at the top of Job Board', included: true, highlight: true },
-        { text: 'Centralized VAT invoicing & monthly reporting', included: true },
-        { text: 'Multi-member team account (up to 5 seats)', included: true }
+        { text: 'Briefs mobiles actifs illimités', included: true, highlight: true },
+        { text: 'Filtres avancés (modèles de smartphone & stabilisateurs)', included: true },
+        { text: 'Mise en avant prioritaire en tête de la liste des missions', included: true, highlight: true },
+        { text: 'Facturation TVA centralisée & rapports mensuels', included: true },
+        { text: 'Compte d\'équipe multi-membres (jusqu\'à 5 accès)', included: true }
       ]
     }
   ]);

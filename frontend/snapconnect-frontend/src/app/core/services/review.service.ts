@@ -31,8 +31,15 @@ export class ReviewService {
     );
   }
 
+  getByUserId(userId: string | number): Observable<any[]> {
+    this.isLoading.set(true);
+    return this.http.get<any[]>(`${API}/user/${userId}`).pipe(
+      tap(() => this.isLoading.set(false))
+    );
+  }
+
   getByContractId(contractId: string): Observable<Review[]> {
-    return this.http.get<Review[]>(`${API}?contractId=${contractId}`);
+    return this.http.get<Review[]>(`${API}/contract/${contractId}`);
   }
 
   submit(data: ReviewSubmitRequest): Observable<Review> {

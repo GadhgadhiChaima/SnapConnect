@@ -1,7 +1,8 @@
-import { Component, input } from '@angular/core';
+import { Component, input, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CreatorProfile } from '../../../core/models/creator.model';
 import { RatingStarsComponent } from '../rating-stars/rating-stars.component';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-creator-card',
@@ -12,24 +13,32 @@ import { RatingStarsComponent } from '../rating-stars/rating-stars.component';
       <div class="creator-card card-glass card-glass-interactive">
         <!-- Header / Avatar & Info -->
         <div class="card-top">
-          <div class="avatar-wrap">
+          <a [routerLink]="['/creators', c.id || 'cr-1']" class="avatar-wrap avatar-link" title="Voir le profil de {{ c.fullName }}">
             <img
-              [src]="c.avatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80'"
+              [src]="getAvatar(c)"
               [alt]="c.fullName"
               class="avatar avatar-lg avatar-ring"
+              referrerpolicy="no-referrer"
               onerror="this.src='https://ui-avatars.com/api/?background=8b5cf6&color=fff&name=' + c.fullName"
             />
             @if (c.isVerified) {
-              <span class="verified-badge" title="Verified Mobile Creator">✓</span>
+              <span class="verified-badge" title="Créateur mobile certifié">✓</span>
             }
             <span class="status-indicator" [class.available]="c.availabilityStatus === 'AVAILABLE'"></span>
-          </div>
+          </a>
 
           <div class="creator-meta">
-            <h3 class="creator-name">{{ c.fullName }}</h3>
+            <h3 class="creator-name">
+              <a [routerLink]="['/creators', c.id || 'cr-1']" class="creator-name-link" title="Voir le profil de {{ c.fullName }}">
+                {{ c.fullName }}
+              </a>
+            </h3>
             <p class="creator-title">{{ c.title }}</p>
             <div class="location-row">
-              <span class="loc-icon">📍</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
               <span>{{ c.location }}</span>
             </div>
           </div>
@@ -38,7 +47,12 @@ import { RatingStarsComponent } from '../rating-stars/rating-stars.component';
         <!-- Rating & Stats -->
         <div class="rating-row">
           <app-rating-stars [rating]="c.rating" [reviewsCount]="c.reviewsCount"></app-rating-stars>
-          <span class="completed-count">🚀 {{ c.completedProjectsCount }} completed</span>
+          <span class="completed-count">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -1px; margin-right: 3px;">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            {{ c.completedProjectsCount }} projets réalisés
+          </span>
         </div>
 
         <!-- Bio snippet -->
@@ -47,7 +61,10 @@ import { RatingStarsComponent } from '../rating-stars/rating-stars.component';
         <!-- Smartphone Gear Tag -->
         @if (c.equipment?.smartphoneModel) {
           <div class="gear-badge">
-            <span class="gear-icon">📱</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+              <line x1="12" y1="18" x2="12.01" y2="18"/>
+            </svg>
             <span class="gear-name">{{ c.equipment?.smartphoneModel }}</span>
             @if (c.equipment?.gimbal) {
               <span class="gear-sub">• {{ c.equipment?.gimbal }}</span>
@@ -65,10 +82,10 @@ import { RatingStarsComponent } from '../rating-stars/rating-stars.component';
         <!-- Card Footer (Rate & View Profile) -->
         <div class="card-footer">
           <div class="rate-info">
-            <span class="rate-label">Starting at</span>
-            <span class="rate-value">\${{ c.hourlyRate || 35 }}<span class="rate-unit">/hr</span></span>
+            <span class="rate-label">À partir de</span>
+            <span class="rate-value">{{ c.hourlyRate || 35 }} DT<span class="rate-unit">/h</span></span>
           </div>
-          <a [routerLink]="['/creators', c.id]" class="btn btn-outline btn-sm">View Profile</a>
+          <a [routerLink]="['/creators', c.id]" class="btn btn-outline btn-sm">Voir Profil</a>
         </div>
       </div>
     }
@@ -138,6 +155,22 @@ import { RatingStarsComponent } from '../rating-stars/rating-stars.component';
       box-shadow: 0 0 8px var(--color-success);
     }
 
+    .avatar-link {
+      display: inline-block;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform var(--transition-fast);
+    }
+
+    .avatar-link:hover {
+      transform: scale(1.05);
+    }
+
+    .avatar-link:hover .avatar {
+      border-color: var(--color-primary-400);
+      box-shadow: 0 0 16px var(--color-primary-glow);
+    }
+
     .creator-meta {
       overflow: hidden;
     }
@@ -145,11 +178,24 @@ import { RatingStarsComponent } from '../rating-stars/rating-stars.component';
     .creator-name {
       font-size: var(--font-size-base);
       font-weight: var(--font-weight-bold);
-      color: var(--color-text-primary);
       margin-bottom: 2px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    .creator-name-link {
+      text-decoration: none;
+      color: var(--color-text-primary);
+      display: inline-block;
+      cursor: pointer;
+      transition: color var(--transition-fast);
+    }
+
+    .creator-name-link:hover {
+      color: var(--color-primary-300);
+      text-decoration: underline;
+      text-underline-offset: 3px;
     }
 
     .creator-title {
@@ -256,5 +302,14 @@ import { RatingStarsComponent } from '../rating-stars/rating-stars.component';
   `]
 })
 export class CreatorCardComponent {
+  readonly auth = inject(AuthService);
   creator = input<CreatorProfile | null>(null);
+
+  getAvatar(c: CreatorProfile): string {
+    const dedicated = this.auth.getDedicatedAvatar(c.id || c.userId, c.email);
+    if (dedicated) return dedicated;
+    const clean = this.auth.cleanAvatar(c.avatarUrl);
+    if (clean) return clean;
+    return 'https://ui-avatars.com/api/?background=8b5cf6&color=fff&name=' + encodeURIComponent(c.fullName || 'User');
+  }
 }

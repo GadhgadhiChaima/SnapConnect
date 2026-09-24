@@ -15,9 +15,9 @@ import { PLATFORM_CATEGORIES } from '../../../core/services/category.service';
     <main class="categories-page">
       <div class="container">
         <div class="page-header text-center">
-          <span class="badge badge-primary">Marketplace Directory</span>
-          <h1>Smartphone Photo & Video Categories</h1>
-          <p>Browse mobile creators and services tailored specifically to your industry niche.</p>
+          <span class="badge badge-primary">Catalogue Marketplace</span>
+          <h1>Catégories Photo & Vidéo Smartphone</h1>
+          <p>Explorez les créateurs mobiles et les compétences adaptés à chaque secteur d'activité.</p>
         </div>
 
         <div class="categories-grid">

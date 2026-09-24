@@ -12,19 +12,22 @@ import { JobCategory } from '../../../core/models/job.model';
   template: `
     <div class="job-list-page">
       <div class="page-header">
-        <h1>Explore <span class="gradient-title">Mobile Photography & Video</span> Briefs</h1>
-        <p>Find client briefs requiring iPhone or Android flagship gear for Reels, product shoots & tours.</p>
+        <h1>Explorez les <span class="gradient-title">Missions Vidéo & Photo</span> Mobile</h1>
+        <p>Trouvez des missions de marques nécessitant un smartphone haut de gamme pour des Reels, photos produits et tournages.</p>
       </div>
 
       <!-- FILTER & SEARCH BAR -->
       <div class="filter-card card-glass">
         <div class="search-box">
-          <span class="search-icon">🔍</span>
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
           <input
             type="text"
             [(ngModel)]="searchQuery"
             (ngModelChange)="onSearchChange($event)"
-            placeholder="Search briefs by keyword (e.g. iPhone 15, Barista, 4K Reels, UGC)..."
+            placeholder="Rechercher une mission (ex. iPhone 16 Pro, Reels 4K, UGC, Restaurant)..."
             class="input-field search-input" />
         </div>
 
@@ -33,31 +36,31 @@ import { JobCategory } from '../../../core/models/job.model';
             class="pill"
             [class.active]="selectedCategory() === 'ALL'"
             (click)="selectedCategory.set('ALL')">
-            All Briefs
+            Toutes les missions
           </button>
           <button
             class="pill"
             [class.active]="selectedCategory() === 'REELS_TIKTOK'"
             (click)="selectedCategory.set('REELS_TIKTOK')">
-            📱 Reels & TikToks
+            Reels & TikTok
           </button>
           <button
             class="pill"
             [class.active]="selectedCategory() === 'PRODUCT_PHOTO'"
             (click)="selectedCategory.set('PRODUCT_PHOTO')">
-            📦 Product Shoots
+            Photos Produits
           </button>
           <button
             class="pill"
             [class.active]="selectedCategory() === 'REAL_ESTATE'"
             (click)="selectedCategory.set('REAL_ESTATE')">
-            🏰 Real Estate Tours
+            Visites Immobilières
           </button>
           <button
             class="pill"
             [class.active]="selectedCategory() === 'UGC'"
             (click)="selectedCategory.set('UGC')">
-            🤳 UGC Content
+            Contenu UGC
           </button>
         </div>
       </div>
@@ -71,8 +74,8 @@ import { JobCategory } from '../../../core/models/job.model';
               <span>{{ job.clientName }}</span>
             </div>
             <div class="budget-tag">
-              <span class="amount">\${{ job.budgetAmount }}</span>
-              <span class="type">({{ job.budgetType }})</span>
+              <span class="amount">{{ job.budgetAmount }} DT</span>
+              <span class="type">({{ job.budgetType === 'FIXED' ? 'Prix fixe' : job.budgetType }})</span>
             </div>
           </div>
 
@@ -82,32 +85,59 @@ import { JobCategory } from '../../../core/models/job.model';
           <p class="description">{{ job.description }}</p>
 
           <div class="gear-requirement" *ngIf="job.requiredGear">
-            <span class="gear-icon">📱 Required Gear:</span>
+            <span class="gear-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 4px;">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                <line x1="12" y1="18" x2="12.01" y2="18"></line>
+              </svg>
+              Matériel requis :
+            </span>
             <span class="gear-text">{{ job.requiredGear }}</span>
           </div>
 
           <div class="deliverables-tags">
             <span class="deliv-item" *ngFor="let del of job.deliverables">
-              ✓ {{ del }}
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -1px; margin-right: 3px;">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              {{ del }}
             </span>
           </div>
 
           <div class="brief-bottom">
             <div class="meta-items">
-              <span>📍 {{ job.location }}</span>
-              <span>⏱️ {{ job.postedDate }}</span>
-              <span>📩 {{ job.proposalsCount }} Proposals</span>
+              <span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 3px;">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                {{ job.location }}
+              </span>
+              <span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 3px;">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                {{ job.postedDate }}
+              </span>
+              <span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 3px;">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                {{ job.proposalsCount }} propositions
+              </span>
             </div>
 
             <a [routerLink]="['/jobs', job.id]" class="btn btn-sm btn-primary">
-              View Brief & Submit Bid
+              Voir le brief & Postuler
             </a>
           </div>
         </div>
 
         <div class="no-results card-glass" *ngIf="filteredJobs().length === 0">
-          <h3>No mobile briefs match your criteria</h3>
-          <p>Try clearing your search query or selecting a different category tab.</p>
+          <h3>Aucune mission ne correspond à vos critères</h3>
+          <p>Essayez d'élargir votre recherche ou de sélectionner une autre catégorie.</p>
         </div>
       </div>
     </div>
@@ -289,7 +319,7 @@ export class JobListComponent {
     let list = this.jobService.jobs();
 
     if (cat !== 'ALL') {
-      list = list.filter(j => j.category === cat);
+      list = list.filter(j => j.category === cat || j.categoryId === cat || j.categoryName === cat);
     }
 
     if (query) {

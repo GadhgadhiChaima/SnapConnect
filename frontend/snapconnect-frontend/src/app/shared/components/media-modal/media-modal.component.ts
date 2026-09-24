@@ -8,10 +8,10 @@ import { PortfolioItem } from '../../../core/models/portfolio.model';
     @if (item(); as media) {
       <div class="modal-backdrop" (click)="close.emit()">
         <div class="modal-card animate-scale-in" (click)="$event.stopPropagation()">
-          <button class="close-btn" (click)="close.emit()" aria-label="Close modal">✕</button>
+          <button class="close-btn" (click)="close.emit()" aria-label="Fermer">✕</button>
 
           <div class="media-container">
-            @if (media.mediaType === 'VIDEO') {
+            @if (isVideo(media)) {
               <video
                 [src]="media.mediaUrl"
                 controls
@@ -45,7 +45,11 @@ import { PortfolioItem } from '../../../core/models/portfolio.model';
 
             @if (media.equipmentUsed) {
               <div class="gear-tag">
-                <span>📱 Shot with:</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: -2px; margin-right: 4px;">
+                  <rect x="5" y="2" width="14" height="20" rx="2.5" ry="2.5"/>
+                  <circle cx="12" cy="18" r="1"/>
+                </svg>
+                <span>Tourné avec :</span>
                 <strong>{{ media.equipmentUsed }}</strong>
               </div>
             }
@@ -110,7 +114,8 @@ import { PortfolioItem } from '../../../core/models/portfolio.model';
 
     .media-container {
       width: 100%;
-      max-height: 60vh;
+      min-height: 360px;
+      max-height: 75vh;
       background: #000;
       display: flex;
       align-items: center;
@@ -120,7 +125,7 @@ import { PortfolioItem } from '../../../core/models/portfolio.model';
 
     .media-content {
       max-width: 100%;
-      max-height: 60vh;
+      max-height: 75vh;
       object-fit: contain;
     }
 
@@ -175,4 +180,10 @@ import { PortfolioItem } from '../../../core/models/portfolio.model';
 export class MediaModalComponent {
   item = input<PortfolioItem | null>(null);
   close = output<void>();
+
+  isVideo(media: PortfolioItem): boolean {
+    if (media.mediaType === 'VIDEO') return true;
+    const url = (media.mediaUrl || '').toLowerCase();
+    return /\.(mp4|mov|webm|mkv|avi|m4v)(\?.*)?$/i.test(url);
+  }
 }

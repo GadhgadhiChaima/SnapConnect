@@ -12,20 +12,20 @@ import { FooterComponent } from '../../../shared/components/footer/footer.compon
     <main class="legal-page">
       <div class="container-narrow">
         <div class="page-header text-center">
-          <span class="badge badge-neutral">Legal</span>
-          <h1>Terms of Service</h1>
-          <p>Last updated: August 2026</p>
+          <span class="badge badge-neutral">Mentions Légales</span>
+          <h1>Conditions Générales d'Utilisation</h1>
+          <p>Dernière mise à jour : Août 2026</p>
         </div>
 
         <div class="legal-content card-glass">
-          <h3>1. Platform Scope</h3>
-          <p>SnapConnect provides a specialized marketplace connecting clients seeking mobile photography and videography with independent creators who produce content using smartphone equipment.</p>
+          <h3>1. Objet de la plateforme</h3>
+          <p>SnapConnect est une plateforme spécialisée connectant les clients (marques, entreprises, commerces) recherchant des prestations photo et vidéo mobiles avec des créateurs indépendants équipés de smartphones haute performance.</p>
 
-          <h3>2. Escrow & Payments</h3>
-          <p>All transactions on SnapConnect are processed via our secure escrow framework. Payment is secured prior to project commencement and released upon client deliverable approval or milestone resolution.</p>
+          <h3>2. Séquestre & Paiements</h3>
+          <p>Toutes les transactions sur SnapConnect sont régies par notre dispositif de séquestre sécurisé. Les fonds sont bloqués avant le début du tournage et ne sont libérés au créateur qu'après validation explicite des livrables par le client.</p>
 
-          <h3>3. Content Rights & Licensing</h3>
-          <p>Upon final payment release, full commercial usage rights for the created photos and video files are transferred to the client unless otherwise specified in custom project terms.</p>
+          <h3>3. Propriété intellectuelle & Droits d'exploitation</h3>
+          <p>Dès la libération définitive des fonds, l'intégralité des droits d'exploitation commerciale des fichiers photos et vidéos 4K est cédée au client, sauf disposition contraire convenue dans le contrat de mission.</p>
         </div>
       </div>
     </main>

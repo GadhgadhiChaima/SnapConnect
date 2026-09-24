@@ -1,13 +1,11 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { CreatorService, CreatorSearchParams } from './creator.service';
 import { JobService, JobSearchParams } from './job.service';
-import { ServiceMarketplaceService, ServiceSearchParams } from './service-marketplace.service';
 import { CreatorProfile } from '../models/creator.model';
 import { Job } from '../models/job.model';
-import { Service } from '../models/service.model';
 
-export type SearchContext = 'CREATOR' | 'SERVICE' | 'JOB';
-export type SearchResult  = CreatorProfile | Job | Service;
+export type SearchContext = 'CREATOR' | 'JOB';
+export type SearchResult  = CreatorProfile | Job;
 
 export interface FilterState {
   query:      string;
@@ -35,8 +33,8 @@ const DEFAULT_FILTERS: FilterState = {
 };
 
 /**
- * Unified search service — one service feeds all three marketplace pages.
- * Components provide a context ('CREATOR' | 'SERVICE' | 'JOB') and this service
+ * Unified search service — feeds creator and job marketplace pages.
+ * Components provide a context ('CREATOR' | 'JOB') and this service
  * delegates to the appropriate domain service.
  */
 @Injectable({ providedIn: 'root' })
@@ -54,7 +52,6 @@ export class MarketplaceSearchService {
   constructor(
     private creatorSvc: CreatorService,
     private jobSvc:     JobService,
-    private serviceSvc: ServiceMarketplaceService,
   ) {}
 
   setContext(ctx: SearchContext): void {
@@ -84,53 +81,37 @@ export class MarketplaceSearchService {
 
     if (ctx === 'CREATOR') {
       const params: CreatorSearchParams = {
-        query:     f.query       || undefined,
-        categoryId: f.categoryId || undefined,
-        location:  f.location    || undefined,
-        minRate:   f.minPrice    ?? undefined,
-        maxRate:   f.maxPrice    ?? undefined,
-        minRating: f.minRating   ?? undefined,
-        page:      f.page,
-        pageSize:  f.pageSize,
-        sort:      f.sort,
+        query:      f.query       || undefined,
+        categoryId: f.categoryId  || undefined,
+        location:   f.location    || undefined,
+        minRate:    f.minPrice    ?? undefined,
+        maxRate:    f.maxPrice    ?? undefined,
+        minRating:  f.minRating   ?? undefined,
+        page:       f.page,
+        pageSize:   f.pageSize,
+        sort:       f.sort,
       };
       this.creatorSvc.search(params).subscribe(res => {
         this.results.set(res.creators);
         this.total.set(res.total);
       });
 
-    } else if (ctx === 'JOB') {
+    } else {
       const params: JobSearchParams = {
-        query:     f.query       || undefined,
-        categoryId: f.categoryId || undefined,
-        location:  f.location    || undefined,
-        budgetMin: f.minPrice    ?? undefined,
-        budgetMax: f.maxPrice    ?? undefined,
-        page:      f.page,
-        pageSize:  f.pageSize,
-        sort:      f.sort,
+        query:      f.query       || undefined,
+        categoryId: f.categoryId  || undefined,
+        location:   f.location    || undefined,
+        budgetMin:  f.minPrice    ?? undefined,
+        budgetMax:  f.maxPrice    ?? undefined,
+        page:       f.page,
+        pageSize:   f.pageSize,
+        sort:       f.sort,
       };
       this.jobSvc.search(params).subscribe(res => {
         this.results.set(res.jobs);
         this.total.set(res.total);
       });
-
-    } else {
-      const params: ServiceSearchParams = {
-        query:     f.query       || undefined,
-        categoryId: f.categoryId || undefined,
-        location:  f.location    || undefined,
-        minPrice:  f.minPrice    ?? undefined,
-        maxPrice:  f.maxPrice    ?? undefined,
-        minRating: f.minRating   ?? undefined,
-        page:      f.page,
-        pageSize:  f.pageSize,
-        sort:      f.sort,
-      };
-      this.serviceSvc.search(params).subscribe(res => {
-        this.results.set(res.services);
-        this.total.set(res.total);
-      });
     }
   }
 }
+

@@ -9,11 +9,11 @@ import { Router, RouterLink } from '@angular/router';
     <div class="error-page">
       <div class="error-content animate-fade-in">
         <div class="error-code">403</div>
-        <h1>Access Denied</h1>
-        <p>You don't have permission to view this page.</p>
+        <h1>Accès Refusé</h1>
+        <p>Vous n'avez pas l'autorisation d'accéder à cette page.</p>
         <div class="error-actions">
-          <a routerLink="/" class="btn btn-primary btn-lg">Go Home</a>
-          <button (click)="goBack()" class="btn btn-outline btn-lg">Go Back</button>
+          <a routerLink="/" class="btn btn-primary btn-lg">Retour à l'accueil</a>
+          <button (click)="goBack()" class="btn btn-outline btn-lg">Page précédente</button>
         </div>
       </div>
     </div>

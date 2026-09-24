@@ -13,40 +13,40 @@ import { JobCategory, BudgetType } from '../../../core/models/job.model';
     <div class="job-create-page">
       <div class="create-card card-glass">
         <div class="header">
-          <h1>Post a <span class="gradient-title">Mobile Content Brief</span></h1>
-          <p>Hire a smartphone content creator with verified gear for your project.</p>
+          <h1>Publier un <span class="gradient-title">Brief de Tournage Mobile</span></h1>
+          <p>Recrutez un créateur de contenu smartphone vérifié pour votre projet.</p>
         </div>
 
         <form (ngSubmit)="onSubmit()" class="create-form">
           <div class="form-group">
-            <label>Project Title</label>
+            <label>Titre de la mission</label>
             <input
               type="text"
               [(ngModel)]="title"
               name="title"
               required
               class="input-field"
-              placeholder="e.g. 5 Vertical Instagram Reels for Artisan Cafe" />
+              placeholder="ex. 5 Reels Instagram pour Café Restaurant Artisanal" />
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label>Content Category</label>
+              <label>Catégorie de contenu</label>
               <select [(ngModel)]="category" name="category" class="input-field">
-                <option value="REELS_TIKTOK">📱 Reels & TikTok Videos</option>
-                <option value="PRODUCT_PHOTO">📦 Mobile Product Shoot</option>
-                <option value="REAL_ESTATE">🏰 Real Estate Mobile Tour</option>
-                <option value="EVENT_CLIPS">🎥 Event Mobile Clips</option>
-                <option value="UGC">🤳 UGC Review Video</option>
+                <option value="REELS_TIKTOK">Reels & Vidéos TikTok</option>
+                <option value="PRODUCT_PHOTO">Shooting Produit Mobile</option>
+                <option value="REAL_ESTATE">Visite Immobilière Mobile</option>
+                <option value="EVENT_CLIPS">Couverture Événement Mobile</option>
+                <option value="UGC">Vidéo UGC & Avis Produit</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label>Budget Type & Amount</label>
+              <label>Type de budget & Montant</label>
               <div class="budget-input-group">
                 <select [(ngModel)]="budgetType" name="budgetType" class="input-field select-type">
-                  <option value="FIXED">Fixed ($)</option>
-                  <option value="HOURLY">Hourly ($/hr)</option>
+                  <option value="FIXED">Fixe (DT)</option>
+                  <option value="HOURLY">Horaire (DT/h)</option>
                 </select>
                 <input
                   type="number"
@@ -60,51 +60,51 @@ import { JobCategory, BudgetType } from '../../../core/models/job.model';
           </div>
 
           <div class="form-group">
-            <label>📱 Smartphone Gear & Technical Requirements</label>
+            <label>Équipement smartphone & Exigences techniques</label>
             <input
               type="text"
               [(ngModel)]="requiredGear"
               name="requiredGear"
               class="input-field"
-              placeholder="e.g. iPhone 15 Pro, 4K 60fps, Handheld Gimbal required" />
+              placeholder="ex. iPhone 15/16 Pro, 4K 60fps, Stabilisateur gimbal requis" />
           </div>
 
           <div class="form-group">
-            <label>Location / Execution Type</label>
+            <label>Localisation / Mode d'exécution</label>
             <input
               type="text"
               [(ngModel)]="location"
               name="location"
               class="input-field"
-              placeholder="e.g. New York, NY (On-site) OR Remote (Ship product)" />
+              placeholder="ex. Tunis, La Marsa (Sur place) OU À distance (Envoi de produit)" />
           </div>
 
           <div class="form-group">
-            <label>Brief Description</label>
+            <label>Description du brief</label>
             <textarea
               [(ngModel)]="description"
               name="description"
               rows="5"
               required
               class="input-field textarea"
-              placeholder="Describe the aesthetic, key shots, lighting style, and music vibe you expect...">
+              placeholder="Décrivez l'esthétique souhaitée, les plans clés, l'éclairage et le style musical attendu...">
             </textarea>
           </div>
 
           <div class="form-group">
-            <label>Deliverables (comma separated)</label>
+            <label>Livrables attendus (séparés par des virgules)</label>
             <input
               type="text"
               [(ngModel)]="deliverablesRaw"
               name="deliverablesRaw"
               class="input-field"
-              placeholder="e.g. 5 Edited Reels (1080x1920), Raw 4K clips, Background music sync" />
+              placeholder="ex. 5 Reels montés (1080x1920), Rushes 4K, Synchronisation audio" />
           </div>
 
           <div class="form-actions">
-            <a routerLink="/jobs" class="btn btn-outline">Cancel</a>
+            <a routerLink="/jobs" class="btn btn-outline">Annuler</a>
             <button type="submit" class="btn btn-primary" [disabled]="loading">
-              {{ loading ? 'Publishing...' : 'Publish Mobile Brief' }}
+              {{ loading ? 'Publication en cours...' : 'Publier le brief' }}
             </button>
           </div>
         </form>

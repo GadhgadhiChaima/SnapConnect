@@ -13,7 +13,7 @@ import { MediaModalComponent } from '../../../shared/components/media-modal/medi
   template: `
     <div class="creator-detail-page" *ngIf="creator; else notFound">
       <div class="back-link">
-        <a routerLink="/creators">← Back to All Mobile Creators</a>
+        <a routerLink="/creators">← Retour à l'annuaire des créateurs</a>
       </div>
 
       <!-- CREATOR HERO HEADER -->
@@ -23,28 +23,51 @@ import { MediaModalComponent } from '../../../shared/components/media-modal/medi
           <div class="creator-titles">
             <h1>
               {{ creator.fullName }}
-              <span class="verified-badge" *ngIf="creator.verifiedCreator">Verified Gear ✓</span>
+              <span class="verified-badge" *ngIf="creator.verifiedCreator">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                Matériel certifié
+              </span>
             </h1>
             <p class="tagline">{{ creator.title }}</p>
 
             <div class="stats-line">
               <app-rating-stars [rating]="creator.rating" [reviewsCount]="creator.reviewsCount"></app-rating-stars>
               <span class="sep">•</span>
-              <span>📍 {{ creator.location }}</span>
+              <span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 3px;">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                {{ creator.location }}
+              </span>
               <span class="sep">•</span>
-              <span>💼 {{ creator.completedJobsCount }} Shoots Completed</span>
+              <span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 3px;">
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                </svg>
+                {{ creator.completedJobsCount }} projets réalisés
+              </span>
             </div>
           </div>
         </div>
 
         <div class="hero-right">
           <div class="rate-card">
-            <span class="price">\${{ creator.hourlyRate }}</span>
-            <span class="unit">/ hour</span>
+            <span class="price">{{ creator.hourlyRate }} DT</span>
+            <span class="unit">/ heure</span>
           </div>
 
-          <a routerLink="/jobs/create" class="btn btn-primary btn-block">
-            Direct Mobile Brief
+          <a [routerLink]="['/client/jobs/create']" [queryParams]="{ creatorId: creator.id, creatorName: creator.fullName }" class="btn btn-primary btn-block">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="margin-right: 6px; vertical-align: -2px;">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="8.5" cy="7" r="4"></circle>
+              <line x1="20" y1="8" x2="20" y2="14"></line>
+              <line x1="23" y1="11" x2="17" y2="11"></line>
+            </svg>
+            Embaucher ce créateur
           </a>
         </div>
       </div>
@@ -53,8 +76,14 @@ import { MediaModalComponent } from '../../../shared/components/media-modal/medi
         <!-- LEFT COLUMN: Portfolio Gallery -->
         <main class="portfolio-section">
           <div class="section-title">
-            <h2>📱 Smartphone Portfolio Showcase</h2>
-            <p>Click any video or image to inspect gear details & full resolution.</p>
+            <h2>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -3px; margin-right: 6px;">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                <line x1="12" y1="18" x2="12.01" y2="18"></line>
+              </svg>
+              Portfolio Smartphone
+            </h2>
+            <p>Cliquez sur une réalisation pour consulter les détails du matériel et la haute résolution.</p>
           </div>
 
           <div class="portfolio-grid">
@@ -72,7 +101,13 @@ import { MediaModalComponent } from '../../../shared/components/media-modal/medi
 
               <div class="item-info">
                 <h3>{{ item.title }}</h3>
-                <p class="gear-used">📱 {{ item.equipmentUsed }}</p>
+                <p class="gear-used">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -1px; margin-right: 3px;">
+                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                    <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                  </svg>
+                  {{ item.equipmentUsed }}
+                </p>
               </div>
             </div>
           </div>
@@ -81,32 +116,38 @@ import { MediaModalComponent } from '../../../shared/components/media-modal/medi
         <!-- RIGHT COLUMN: Equipment Breakdown & Bio -->
         <aside class="sidebar">
           <div class="info-card card-glass">
-            <h3>📱 Verified Equipment Setup</h3>
+            <h3>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -3px; margin-right: 6px;">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                <line x1="12" y1="18" x2="12.01" y2="18"></line>
+              </svg>
+              Configuration matérielle certifiée
+            </h3>
             <div class="gear-list">
               <div class="gear-row">
-                <span class="label">Smartphone:</span>
+                <span class="label">Smartphone :</span>
                 <strong class="value">{{ creator.equipment.smartphoneModel }}</strong>
               </div>
               <div class="gear-row" *ngIf="creator.equipment.gimbal">
-                <span class="label">Gimbal:</span>
+                <span class="label">Stabilisateur :</span>
                 <span class="value">{{ creator.equipment.gimbal }}</span>
               </div>
               <div class="gear-row" *ngIf="creator.equipment.audioGear">
-                <span class="label">Wireless Audio:</span>
+                <span class="label">Micro sans fil :</span>
                 <span class="value">{{ creator.equipment.audioGear }}</span>
               </div>
               <div class="gear-row" *ngIf="creator.equipment.lighting">
-                <span class="label">Lighting:</span>
+                <span class="label">Éclairage :</span>
                 <span class="value">{{ creator.equipment.lighting }}</span>
               </div>
             </div>
           </div>
 
           <div class="info-card card-glass">
-            <h3>About the Creator</h3>
+            <h3>À propos du créateur</h3>
             <p class="bio-text">{{ creator.bio }}</p>
 
-            <h4 class="specs-title">Specializations</h4>
+            <h4 class="specs-title">Spécialisations</h4>
             <div class="specs-list">
               <span class="badge badge-purple" *ngFor="let spec of creator.specializations">
                 {{ spec }}
@@ -125,8 +166,8 @@ import { MediaModalComponent } from '../../../shared/components/media-modal/medi
 
     <ng-template #notFound>
       <div class="not-found card-glass">
-        <h2>Creator Profile Not Found</h2>
-        <a routerLink="/creators" class="btn btn-primary">Return to Creator Directory</a>
+        <h2>Profil créateur introuvable</h2>
+        <a routerLink="/creators" class="btn btn-primary">Retourner à l'annuaire</a>
       </div>
     </ng-template>
   `,
@@ -348,7 +389,10 @@ export class CreatorDetailComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.creator = this.creatorService.getCreatorById(id);
+      this.creatorService.getCreatorById(id).subscribe({
+        next: (c) => this.creator = c,
+        error: () => {}
+      });
     }
   }
 }

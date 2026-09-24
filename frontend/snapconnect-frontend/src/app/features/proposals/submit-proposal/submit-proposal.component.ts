@@ -14,41 +14,45 @@ import { Job } from '../../../core/models/job.model';
     <div class="submit-proposal-page" *ngIf="job">
       <div class="proposal-card card-glass">
         <div class="header">
-          <h1>Submit Your <span class="gradient-title">Creator Bid</span></h1>
-          <p>Brief: <strong>{{ job.title }}</strong> (\${{ job.budgetAmount }} {{ job.budgetType }})</p>
+          <h1>Déposer votre <span class="gradient-title">Proposition</span></h1>
+          <p>Mission : <strong>{{ job.title }}</strong> ({{ job.budgetAmount }} DT {{ job.budgetType === 'HOURLY' ? '/h' : 'Fixe' }})</p>
         </div>
 
         <div class="gear-reminder card-glass">
-          <span>📱 Client Gear Requirement:</span>
-          <strong>{{ job.requiredGear || 'Smartphone 4K Resolution' }}</strong>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="2.5" ry="2.5"></rect>
+            <line x1="12" y1="18" x2="12.01" y2="18"></line>
+          </svg>
+          <span>Équipement requis par le client :</span>
+          <strong>{{ job.requiredGear || 'Smartphone Résolution 4K' }}</strong>
         </div>
 
         <form (ngSubmit)="onSubmit()" class="proposal-form">
           <div class="form-group">
-            <label>Confirm Your Smartphone Equipment</label>
+            <label>Confirmez votre équipement smartphone</label>
             <input
               type="text"
               [(ngModel)]="creatorEquipment"
               name="creatorEquipment"
               required
               class="input-field"
-              placeholder="e.g. iPhone 15 Pro Max + DJI Osmo Mobile 6 Gimbal" />
+              placeholder="ex. iPhone 16 Pro Max + DJI Osmo Mobile 6" />
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label>Your Bid Amount ($)</label>
+              <label>Votre Devis / Tarif (DT)</label>
               <input
                 type="number"
                 [(ngModel)]="bidAmount"
                 name="bidAmount"
                 required
                 class="input-field"
-                placeholder="350" />
+                placeholder="250" />
             </div>
 
             <div class="form-group">
-              <label>Estimated Delivery (Days)</label>
+              <label>Délai de livraison estimé (Jours)</label>
               <input
                 type="number"
                 [(ngModel)]="estimatedDays"
@@ -60,21 +64,21 @@ import { Job } from '../../../core/models/job.model';
           </div>
 
           <div class="form-group">
-            <label>Cover Letter / Pitch</label>
+            <label>Lettre de présentation / Pitch</label>
             <textarea
               [(ngModel)]="coverLetter"
               name="coverLetter"
               rows="6"
               required
               class="input-field textarea"
-              placeholder="Explain how you will shoot this mobile brief, your phone setup, lighting techniques, and estimated delivery timeline...">
+              placeholder="Expliquez votre méthode de tournage mobile, votre smartphone, éclairage et planning de livraison...">
             </textarea>
           </div>
 
           <div class="form-actions">
-            <a [routerLink]="['/jobs', job.id]" class="btn btn-outline">Cancel</a>
+            <a [routerLink]="['/jobs', job.id]" class="btn btn-outline">Annuler</a>
             <button type="submit" class="btn btn-primary" [disabled]="loading">
-              {{ loading ? 'Submitting Bid...' : 'Submit Proposal' }}
+              {{ loading ? 'Envoi en cours...' : 'Envoyer ma proposition' }}
             </button>
           </div>
         </form>
@@ -161,10 +165,15 @@ export class SubmitProposalComponent implements OnInit {
   ngOnInit(): void {
     const jobId = this.route.snapshot.paramMap.get('jobId');
     if (jobId) {
-      this.job = this.jobService.getJobById(jobId);
-      if (this.job) {
-        this.bidAmount = this.job.budgetAmount;
-      }
+      this.jobService.getJobById(jobId).subscribe({
+        next: (j) => {
+          this.job = j;
+          if (j?.budgetAmount) {
+            this.bidAmount = j.budgetAmount;
+          }
+        },
+        error: () => {}
+      });
     }
   }
 

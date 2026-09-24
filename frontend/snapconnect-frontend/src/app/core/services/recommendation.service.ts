@@ -11,12 +11,12 @@ export class RecommendationService {
       creator: {
         id: 'cr-1',
         userId: 'u-1',
-        fullName: 'Sarah Jenkins',
-        email: 'sarah.j@example.com',
+        fullName: 'Sarah Ben Salem',
+        email: 'sarah.bensalem@snapconnect.tn',
         avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
-        title: 'TikTok & Reels Viral Specialist',
-        bio: 'Mobile videographer with 400K+ views on client TikToks. Specializing in fast-paced cuts and hook psychology.',
-        location: 'Paris, France',
+        title: 'Spécialiste TikTok & Reels UGC Viral',
+        bio: 'Vidéaste mobile basée à Tunis avec plus de 500K vues cumulées. Spécialisée dans les montages dynamiques et le storytelling.',
+        location: 'Tunis (La Marsa), Tunisie',
         hourlyRate: 45,
         rating: 4.95,
         reviewsCount: 38,
@@ -28,21 +28,21 @@ export class RecommendationService {
       },
       matchScore: 98,
       matchReasons: [
-        'Matches your 4K ProRes mobile video requirements (iPhone 16 Pro Max)',
-        'Top Rated with 4.95/5 in Reels & TikTok category',
-        'Average response time under 1.2 hours'
+        'Correspond à vos exigences vidéo 4K ProRes (iPhone 16 Pro Max)',
+        'Top Créatrice notée 4.95/5 dans la catégorie Reels & TikTok',
+        'Temps moyen de réponse inférieur à 1.2 heure'
       ]
     },
     {
       creator: {
         id: 'cr-2',
         userId: 'u-2',
-        fullName: 'Marc Dupont',
-        email: 'marc.d@example.com',
+        fullName: 'Mehdi Trabelsi',
+        email: 'mehdi.trabelsi@snapconnect.tn',
         avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80',
-        title: 'Food & Restaurant Mobile Storyteller',
-        bio: 'Creating mouthwatering 4K 60fps reels for upscale bistros. Shot on Galaxy S24 Ultra with macro lenses.',
-        location: 'Lyon, France',
+        title: 'Storyteller Mobile Food & Gastronomie',
+        bio: 'Création de Reels 4K 60fps alléchants pour restaurants et salons de thé. Tournage sur Galaxy S24 Ultra avec macro.',
+        location: 'Sousse, Tunisie',
         hourlyRate: 50,
         rating: 5.0,
         reviewsCount: 29,
@@ -54,9 +54,9 @@ export class RecommendationService {
       },
       matchScore: 92,
       matchReasons: [
-        'Specialized in Restaurant & Food Mobile Shoots',
-        '100% On-Time Delivery Rate over 34 orders',
-        'Within your budget range ($45-$55/hr)'
+        'Spécialisé dans les tournages mobiles Gastronomie & Restaurants',
+        '100% de respect des délais sur plus de 34 commandes',
+        'Dans votre tranche de budget (45-55 DT/h)'
       ]
     }
   ]);
@@ -67,15 +67,15 @@ export class RecommendationService {
       job: {
         id: 'jb-1',
         clientId: 'cl-1',
-        clientName: 'Bloom Cosmetics',
-        title: '5 Aesthetic Vertical Unboxing Videos for TikTok / Reels',
-        description: 'Looking for a skilled mobile videographer to film 5 vertical clips highlighting our new organic skincare line.',
+        clientName: 'Maison Alyssa Cosmétiques Bio',
+        title: '5 Vidéos Verticales Esthétiques Unboxing pour TikTok / Reels',
+        description: 'Recherche d\'un vidéaste mobile pour filmer 5 clips verticaux mettant en valeur notre nouvelle gamme de soins bio tunisiens.',
         categoryName: 'Reels & TikTok',
         budgetType: 'FIXED',
         budgetMin: 250,
         budgetMax: 250,
         deadline: '2026-08-20',
-        location: 'Remote',
+        location: 'À distance (Tunisie)',
         isRemote: true,
         status: 'OPEN',
         proposalsCount: 6,
@@ -84,9 +84,9 @@ export class RecommendationService {
       },
       matchScore: 97,
       matchReasons: [
-        'Requires your exact smartphone setup: iPhone 16 Pro Max',
-        'Matches your primary niche: Reels & TikTok',
-        'Fixed budget of $250 matches your typical pricing'
+        'Exige votre configuration exacte : iPhone 16 Pro Max',
+        'Correspond à votre niche principale : Reels & TikTok',
+        'Budget fixe de 250 DT correspond à vos tarifs habituels'
       ]
     }
   ]);

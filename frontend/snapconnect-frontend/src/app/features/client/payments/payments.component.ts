@@ -18,16 +18,20 @@ import { TransactionType, WalletTransaction } from '../../../core/models/wallet.
         <!-- Page Header -->
         <div class="page-header flex-between">
           <div>
-            <span class="badge badge-primary">Financial Hub</span>
-            <h1>Client Wallet & Escrow Ledger</h1>
-            <p>Manage your spending balance, review funds held in Escrow, and track all auditable transactions.</p>
+            <span class="badge badge-primary">Espace Financier</span>
+            <h1>Portefeuille Client & Registre du Séquestre</h1>
+            <p>Gérez votre solde disponible, suivez vos fonds protégés en séquestre et consultez l'historique complet de vos transactions.</p>
           </div>
           <div class="header-actions">
             <button (click)="openDepositModal.set(true)" class="btn btn-primary btn-md">
-              + Deposit Funds
+              + Approvisionner mon compte
             </button>
             <a routerLink="/client/contracts" class="btn btn-outline btn-md">
-              🔒 View Active Escrow Contracts
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 6px;">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              Voir les contrats sous séquestre
             </a>
           </div>
         </div>
@@ -35,38 +39,57 @@ import { TransactionType, WalletTransaction } from '../../../core/models/wallet.
         <!-- Metric Balance Cards Grid -->
         <div class="metrics-grid">
           <div class="metric-card card-glass">
-            <div class="metric-icon green">💳</div>
+            <div class="metric-icon green">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                <line x1="1" y1="10" x2="23" y2="10"></line>
+              </svg>
+            </div>
             <div class="metric-info">
-              <span class="metric-label">Available Balance</span>
-              <span class="metric-val">\${{ wallet().balance }} <span class="cur">{{ wallet().currency }}</span></span>
-              <span class="sub-hint">Ready for instant orders & bids</span>
+              <span class="metric-label">Solde Disponible</span>
+              <span class="metric-val">{{ wallet().balance }} <span class="cur">{{ wallet().currency }}</span></span>
+              <span class="sub-hint">Prêt pour commandes et briefs</span>
             </div>
           </div>
 
           <div class="metric-card card-glass">
-            <div class="metric-icon purple">🔒</div>
+            <div class="metric-icon purple">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </div>
             <div class="metric-info">
-              <span class="metric-label">Secured in Escrow</span>
-              <span class="metric-val">\${{ wallet().fundsInEscrow }} <span class="cur">{{ wallet().currency }}</span></span>
-              <span class="sub-hint">Locked until deliverable approval</span>
+              <span class="metric-label">Sécurisé en Séquestre</span>
+              <span class="metric-val">{{ wallet().fundsInEscrow }} <span class="cur">{{ wallet().currency }}</span></span>
+              <span class="sub-hint">Bloqué jusqu'à validation finale</span>
             </div>
           </div>
 
           <div class="metric-card card-glass">
-            <div class="metric-icon pink">📈</div>
+            <div class="metric-icon pink">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                <polyline points="17 6 23 6 23 12"></polyline>
+              </svg>
+            </div>
             <div class="metric-info">
-              <span class="metric-label">Total Invested</span>
-              <span class="metric-val">\${{ wallet().totalSpent }} <span class="cur">{{ wallet().currency }}</span></span>
-              <span class="sub-hint">Lifetime completed content shoots</span>
+              <span class="metric-label">Total Investi</span>
+              <span class="metric-val">{{ wallet().totalSpent }} <span class="cur">{{ wallet().currency }}</span></span>
+              <span class="sub-hint">Projets réalisés à ce jour</span>
             </div>
           </div>
 
           <div class="metric-card card-glass">
-            <div class="metric-icon gold">🛡️</div>
+            <div class="metric-icon gold">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
             <div class="metric-info">
-              <span class="metric-label">Total Refunded</span>
-              <span class="metric-val">\${{ wallet().totalRefunded }} <span class="cur">{{ wallet().currency }}</span></span>
-              <span class="sub-hint">100% money-back protection</span>
+              <span class="metric-label">Total Remboursé</span>
+              <span class="metric-val">{{ wallet().totalRefunded }} <span class="cur">{{ wallet().currency }}</span></span>
+              <span class="sub-hint">Garantie 100% remboursement</span>
             </div>
           </div>
         </div>
@@ -75,18 +98,18 @@ import { TransactionType, WalletTransaction } from '../../../core/models/wallet.
         <div class="ledger-card card-glass">
           <div class="ledger-header flex-between">
             <div>
-              <h3>Auditable Transaction Ledger</h3>
-              <p class="ledger-sub">Immutable transaction history powered by SnapConnect Double-Entry Accounting</p>
+              <h3>Journal auditable des transactions</h3>
+              <p class="ledger-sub">Historique certifié des mouvements financiers sous garantie de séquestre SnapConnect</p>
             </div>
             
             <!-- Filters -->
             <div class="filter-group">
               <select [(ngModel)]="selectedType" class="form-select select-sm">
-                <option value="ALL">All Transaction Types</option>
-                <option value="ESCROW_HOLD">Escrow Holds (🔒)</option>
-                <option value="ESCROW_RELEASE">Escrow Releases (💰)</option>
-                <option value="DEPOSIT">Deposits (💳)</option>
-                <option value="REFUND">Refunds (↩️)</option>
+                <option value="ALL">Tous les types de transaction</option>
+                <option value="ESCROW_HOLD">Fonds bloqués en séquestre</option>
+                <option value="ESCROW_RELEASE">Fonds libérés au créateur</option>
+                <option value="DEPOSIT">Dépôts & Recharges</option>
+                <option value="REFUND">Remboursements</option>
               </select>
             </div>
           </div>
@@ -95,12 +118,12 @@ import { TransactionType, WalletTransaction } from '../../../core/models/wallet.
             <table class="ledger-table">
               <thead>
                 <tr>
-                  <th>Transaction ID</th>
-                  <th>Date & Time</th>
+                  <th>Réf. Transaction</th>
+                  <th>Date & Heure</th>
                   <th>Type</th>
-                  <th>Description & Counterparty</th>
-                  <th>Amount</th>
-                  <th>Status</th>
+                  <th>Description & Contrepartie</th>
+                  <th>Montant</th>
+                  <th>Statut</th>
                 </tr>
               </thead>
               <tbody>
@@ -119,13 +142,13 @@ import { TransactionType, WalletTransaction } from '../../../core/models/wallet.
                       <div class="tx-desc">
                         <strong>{{ tx.description }}</strong>
                         @if (tx.counterpartyName) {
-                          <span class="counterparty">Creator: {{ tx.counterpartyName }}</span>
+                          <span class="counterparty">Créateur : {{ tx.counterpartyName }}</span>
                         }
                       </div>
                     </td>
                     <td>
                       <strong class="tx-amount" [class.positive]="tx.type === 'DEPOSIT' || tx.type === 'REFUND'" [class.negative]="tx.type === 'ESCROW_HOLD'">
-                        {{ tx.type === 'DEPOSIT' || tx.type === 'REFUND' ? '+' : '-' }}\${{ tx.amount }} {{ tx.currency }}
+                        {{ tx.type === 'DEPOSIT' || tx.type === 'REFUND' ? '+' : '-' }}{{ tx.amount }} {{ tx.currency }}
                       </strong>
                     </td>
                     <td>
@@ -137,7 +160,7 @@ import { TransactionType, WalletTransaction } from '../../../core/models/wallet.
                 } @empty {
                   <tr>
                     <td colspan="6" class="text-center py-6 text-muted">
-                      No transactions found matching the selected filter.
+                      Aucune transaction ne correspond au filtre sélectionné.
                     </td>
                   </tr>
                 }
@@ -154,35 +177,39 @@ import { TransactionType, WalletTransaction } from '../../../core/models/wallet.
         <div class="modal-card card-glass animate-scale-in" (click)="$event.stopPropagation()">
           <button class="close-btn" (click)="openDepositModal.set(false)">✕</button>
 
-          <h2>Deposit Funds to Wallet</h2>
-          <p class="modal-sub">Funds added to your wallet are ready for instant checkout on mobile briefs and gig packages.</p>
+          <h2>Approvisionner mon portefeuille</h2>
+          <p class="modal-sub">Les fonds ajoutés à votre portefeuille sont disponibles immédiatement pour réserver des briefs et packages de services.</p>
 
           <form (ngSubmit)="confirmDeposit()" class="deposit-form">
             <div class="form-group">
-              <label class="form-label">Deposit Amount ($ USD)</label>
+              <label class="form-label">Montant du Dépôt (DT)</label>
               <div class="input-with-cur">
-                <span class="cur-symbol">$</span>
+                <span class="cur-symbol">DT</span>
                 <input type="number" [(ngModel)]="depositAmount" name="amount" min="10" max="5000" class="form-input with-prefix" required />
               </div>
             </div>
 
             <div class="quick-amounts">
-              <button type="button" (click)="depositAmount = 100" class="btn btn-outline btn-xs" [class.active]="depositAmount === 100">$100</button>
-              <button type="button" (click)="depositAmount = 250" class="btn btn-outline btn-xs" [class.active]="depositAmount === 250">$250</button>
-              <button type="button" (click)="depositAmount = 500" class="btn btn-outline btn-xs" [class.active]="depositAmount === 500">$500</button>
+              <button type="button" (click)="depositAmount = 100" class="btn btn-outline btn-xs" [class.active]="depositAmount === 100">100 DT</button>
+              <button type="button" (click)="depositAmount = 250" class="btn btn-outline btn-xs" [class.active]="depositAmount === 250">250 DT</button>
+              <button type="button" (click)="depositAmount = 500" class="btn btn-outline btn-xs" [class.active]="depositAmount === 500">500 DT</button>
             </div>
 
             <div class="escrow-badge-note">
-              <span class="shield">🛡️</span>
+              <span class="shield">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--color-success);">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+              </span>
               <div>
-                <strong>SnapConnect 100% Escrow Guarantee</strong>
-                <p>Deposited funds remain in your control until you hire a creator and approve their final deliverables.</p>
+                <strong>Garantie Séquestre 100% SnapConnect</strong>
+                <p>Les fonds déposés restent sous votre contrôle jusqu'à validation des livrables finaux.</p>
               </div>
             </div>
 
             <div class="modal-actions">
-              <button type="button" (click)="openDepositModal.set(false)" class="btn btn-outline">Cancel</button>
-              <button type="submit" class="btn btn-primary">Confirm Deposit of \${{ depositAmount }}</button>
+              <button type="button" (click)="openDepositModal.set(false)" class="btn btn-outline">Annuler</button>
+              <button type="submit" class="btn btn-primary">Confirmer le Dépôt de {{ depositAmount }} DT</button>
             </div>
           </form>
         </div>
@@ -502,10 +529,10 @@ export class PaymentsComponent {
 
   getBadgeLabel(type: TransactionType): string {
     switch (type) {
-      case 'ESCROW_HOLD': return '🔒 Escrow Hold';
-      case 'ESCROW_RELEASE': return '💰 Escrow Release';
-      case 'DEPOSIT': return '💳 Card Deposit';
-      case 'REFUND': return '↩️ Refund';
+      case 'ESCROW_HOLD': return 'Séquestre bloqué';
+      case 'ESCROW_RELEASE': return 'Séquestre libéré';
+      case 'DEPOSIT': return 'Recharge carte';
+      case 'REFUND': return 'Remboursement';
       default: return type;
     }
   }
@@ -525,13 +552,13 @@ export class PaymentsComponent {
           amount: this.depositAmount,
           currency: w.currency,
           status: 'SUCCEEDED',
-          description: `Card deposit to client wallet via mock checkout`
+          description: `Recharge du portefeuille client par carte bancaire`
         },
         ...w.transactions
       ]
     }));
 
-    alert(`Deposit of $${this.depositAmount} completed! Your wallet balance has been updated.`);
+    alert(`Dépôt de ${this.depositAmount} DT effectué avec succès ! Votre solde a été mis à jour.`);
     this.openDepositModal.set(false);
   }
 }
